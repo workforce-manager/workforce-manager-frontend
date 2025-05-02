@@ -6,8 +6,10 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div>
-      <h3>Welcome Home!</h3>
+    <div className="flex justify-center">
+      <h3 className="text-center font-mono text-[20px]">
+        Welcome to the Employee Manager Dashboard!
+      </h3>
     </div>
   );
 }
