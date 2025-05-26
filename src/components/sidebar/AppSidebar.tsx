@@ -40,7 +40,7 @@ export function AppSidebar() {
   const { toggleSidebar } = useSidebar();
 
   return (
-    <Sidebar>
+    <Sidebar className="h-[calc(100vh-32px)] border-none">
       <SidebarHeader className="px-4 border-b">
         <div className="flex items-end justify-between">
           <span className="font-medium text-muted-foreground">

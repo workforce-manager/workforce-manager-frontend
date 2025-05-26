@@ -5,10 +5,10 @@ import { createRootRoute, Outlet } from "@tanstack/react-router";
 export const Route = createRootRoute({
   component: () => (
     <SidebarProvider>
-      <div className="h-screen w-full flex">
+      <div className="h-screen w-full flex p-4 box-border">
         <AppSidebar />
         <div className="min-h-0 flex-1 flex flex-col">
-          <header className="h-16 bg-gray-100 px-4 flex items-center">
+          <header className="h-16 bg-transparent px-4 flex items-center">
             <h1 className="text-xl font-semibold">
               Employee Manager
             </h1>
