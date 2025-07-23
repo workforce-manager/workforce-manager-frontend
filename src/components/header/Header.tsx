@@ -4,9 +4,9 @@ import {
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/components/sidebar/sidebar";
+import { ArrowLeftToLine, ArrowRightToLine } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const menuItems = [
@@ -16,15 +16,16 @@ const menuItems = [
 ];
 
 export function Header() {
-  const { toggleSidebar } = useSidebar();
+  const { state, toggleSidebar } = useSidebar();
 
   return (
-    <header className="bg-transparent px-4 py-2 flex items-center justify-between">
-      <button 
-        onClick={toggleSidebar} 
-        className="hover:text-muted-foreground"
-      >
-        <Menu size={32} />
+    <header className="flex items-center justify-between px-4 py-2">
+      <button onClick={toggleSidebar} className="hover:text-muted-foreground">
+        {state === "collapsed" ? (
+          <ArrowRightToLine size={32} /> 
+        ) : ( 
+          <ArrowLeftToLine size={32} />
+        )}
       </button>
 
       <h1 className="font-mono text-[20px]">Employees</h1>

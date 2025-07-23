@@ -4,12 +4,11 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
+  SidebarRail,
 } from "@/components/sidebar/sidebar";
 import { 
   BarChart3, 
@@ -17,11 +16,11 @@ import {
   CalendarClock, 
   LayoutDashboard, 
   LifeBuoy, 
-  LogOut, 
-  PanelsTopLeft, 
+  LogOut,
   Settings, 
   Users,
 } from "lucide-react";
+import { Separator } from "../ui/separator";
 
 const items = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
@@ -37,34 +36,30 @@ const secondaryItems = [
 ];
 
 export function AppSidebar() {
-  const { toggleSidebar } = useSidebar();
-
   return (
-    <Sidebar className="h-[calc(100vh-32px)] border-none">
-      <SidebarHeader className="px-4 border-b">
-        <div className="flex items-end justify-between">
-          <span className="font-medium text-muted-foreground">
-            Employee Manager
+    <Sidebar collapsible="icon">
+      <SidebarHeader className="px-4">
+        <div className="flex items-center">
+          <Users size={32} className="text-muted-foreground shrink-0" />
+          <span className="font-medium text-muted-foreground pl-3 group-data-[state=collapsed]:hidden">
+            Workforce Manager
           </span>
-          <button 
-            onClick={toggleSidebar}
-            className="text-muted-foreground hover:text-foreground"
-          >
-            <PanelsTopLeft size={20} />
-          </button>
         </div>
       </SidebarHeader>
 
-      <SidebarContent>
+      <Separator style={{ marginTop: "0.5rem" }} />
+
+      <SidebarContent className="gap-0">
         <SidebarGroup>
-          <SidebarGroupLabel>Main</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.title} className="py-2">
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
-                      <item.icon />
+                      <span className="w-6 h-6">
+                        <item.icon className="text-muted-foreground" />
+                      </span>
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>
@@ -74,15 +69,18 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
+        <Separator />
+
         <SidebarGroup>
-          <SidebarGroupLabel>Settings</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {secondaryItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.title} className="py-2">
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
-                      <item.icon />
+                      <span className="w-6 h-6">
+                        <item.icon className="text-muted-foreground" />
+                      </span>
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>
@@ -93,7 +91,9 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="px-4 border-t">
+      <Separator style={{ marginBottom: "0.5rem" }} />
+
+      <SidebarFooter className="px-4">
         <div className="flex items-center justify-between">
           <span className="font-medium text-muted-foreground">
             Username
@@ -103,6 +103,8 @@ export function AppSidebar() {
           </button>
         </div>
       </SidebarFooter>
+
+      <SidebarRail />
     </Sidebar>
   );
 }

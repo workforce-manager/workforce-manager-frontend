@@ -6,7 +6,7 @@ import { createRootRoute, Outlet } from "@tanstack/react-router";
 export const Route = createRootRoute({
   component: () => (
     <SidebarProvider>
-      <div className="h-screen w-full flex p-4 box-border">
+      <div className="h-screen w-full flex box-border">
         <AppSidebar />
         <div className="min-h-0 flex-1 flex flex-col">
           <Header />
