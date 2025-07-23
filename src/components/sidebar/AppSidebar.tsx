@@ -10,30 +10,9 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/sidebar/sidebar";
-import { 
-  BarChart3, 
-  Building2, 
-  CalendarClock, 
-  LayoutDashboard, 
-  LifeBuoy, 
-  LogOut,
-  Settings, 
-  Users,
-} from "lucide-react";
 import { Separator } from "../ui/separator";
-
-const items = [
-  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-  { title: "Employees", url: "/employees", icon: Users },
-  { title: "Departments", url: "/departments", icon: Building2 },
-  { title: "Reports", url: "/reports", icon: BarChart3 },
-  { title: "Time Off", url: "/time-off", icon: CalendarClock },
-];
-
-const secondaryItems = [
-  { title: "Help", url: "/help", icon: LifeBuoy },
-  { title: "Settings", url: "/settings", icon: Settings },
-];
+import { LogOut, Users } from "lucide-react";
+import { EXTRA_ITEMS, MAIN_ITEMS } from "./menu/menu.data";
 
 export function AppSidebar() {
   return (
@@ -53,7 +32,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {MAIN_ITEMS.map((item) => (
                 <SidebarMenuItem key={item.title} className="py-2">
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
@@ -74,7 +53,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {secondaryItems.map((item) => (
+              {EXTRA_ITEMS.map((item) => (
                 <SidebarMenuItem key={item.title} className="py-2">
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
