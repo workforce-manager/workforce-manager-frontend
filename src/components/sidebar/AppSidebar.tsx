@@ -19,8 +19,8 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="px-4">
         <div className="flex items-center">
-          <Users size={32} className="text-muted-foreground shrink-0" />
-          <span className="font-medium text-muted-foreground pl-3 group-data-[state=collapsed]:hidden">
+          <Users size={32} className="text-[#6731AB] shrink-0" />
+          <span className="font-medium text-[#6731AB] pl-3 group-data-[state=collapsed]:hidden">
             Workforce Manager
           </span>
         </div>
