@@ -4,67 +4,41 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
+  SidebarRail,
 } from "@/components/sidebar/sidebar";
-import { 
-  BarChart3, 
-  Building2, 
-  CalendarClock, 
-  LayoutDashboard, 
-  LifeBuoy, 
-  LogOut, 
-  PanelsTopLeft, 
-  Settings, 
-  Users,
-} from "lucide-react";
-
-const items = [
-  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-  { title: "Employees", url: "/employees", icon: Users },
-  { title: "Departments", url: "/departments", icon: Building2 },
-  { title: "Reports", url: "/reports", icon: BarChart3 },
-  { title: "Time Off", url: "/time-off", icon: CalendarClock },
-];
-
-const secondaryItems = [
-  { title: "Help", url: "/help", icon: LifeBuoy },
-  { title: "Settings", url: "/settings", icon: Settings },
-];
+import { Separator } from "../ui/separator";
+import { LogOut, Users } from "lucide-react";
+import { EXTRA_ITEMS, MAIN_ITEMS } from "./menu/menu.data";
 
 export function AppSidebar() {
-  const { toggleSidebar } = useSidebar();
-
   return (
-    <Sidebar>
-      <SidebarHeader className="px-4 border-b">
-        <div className="flex items-end justify-between">
-          <span className="font-medium text-muted-foreground">
-            Employee Manager
+    <Sidebar collapsible="icon">
+      <SidebarHeader className="px-4">
+        <div className="flex items-center">
+          <Users size={32} className="text-[#6731AB] shrink-0" />
+          <span className="font-medium text-[#6731AB] pl-3 group-data-[state=collapsed]:hidden">
+            Workforce Manager
           </span>
-          <button 
-            onClick={toggleSidebar}
-            className="text-muted-foreground hover:text-foreground"
-          >
-            <PanelsTopLeft size={20} />
-          </button>
         </div>
       </SidebarHeader>
 
-      <SidebarContent>
+      <Separator style={{ marginTop: "0.5rem" }} />
+
+      <SidebarContent className="gap-0">
         <SidebarGroup>
-          <SidebarGroupLabel>Main</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+              {MAIN_ITEMS.map((item) => (
+                <SidebarMenuItem key={item.title} className="py-2">
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
-                      <item.icon />
+                      <span className="w-6 h-6">
+                        <item.icon className="text-muted-foreground" />
+                      </span>
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>
@@ -74,15 +48,18 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
+        <Separator />
+
         <SidebarGroup>
-          <SidebarGroupLabel>Settings</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {secondaryItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+              {EXTRA_ITEMS.map((item) => (
+                <SidebarMenuItem key={item.title} className="py-2">
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
-                      <item.icon />
+                      <span className="w-6 h-6">
+                        <item.icon className="text-muted-foreground" />
+                      </span>
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>
@@ -93,7 +70,9 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="px-4 border-t">
+      <Separator style={{ marginBottom: "0.5rem" }} />
+
+      <SidebarFooter className="px-4">
         <div className="flex items-center justify-between">
           <span className="font-medium text-muted-foreground">
             Username
@@ -103,6 +82,8 @@ export function AppSidebar() {
           </button>
         </div>
       </SidebarFooter>
+
+      <SidebarRail />
     </Sidebar>
   );
 }
