@@ -48,6 +48,15 @@ function Register() {
           </span>
         </div>
       </CardContent>
+
+      <CardFooter className="p-0 flex flex-col gap-5">
+        <Button className={styles.button}>
+          Create account
+        </Button>
+        <div className={styles.divider}>
+          Or register with
+        </div>
+      </CardFooter>
     </Card>
   );
 }

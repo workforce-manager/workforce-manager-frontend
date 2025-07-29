@@ -14,3 +14,33 @@
   height: 1.25rem;
   stroke-width: 4;
 }
+
+.button {
+  width: 100%;
+  padding: 1.5rem;
+  border-radius: 0.375rem;
+  color: #FFF;
+  background-color: #6D54B5;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: #5D45A3;
+}
+
+.divider {
+  width: 100%;
+  color: #767384;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.75rem;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: #767384;
+}
