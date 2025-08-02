@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { createFileRoute } from "@tanstack/react-router";
+import { AUTH_PROVIDERS } from "@/components/icons/social-icons";
 import { RegisterForm } from "@/components/auth/register/RegisterForm";
 
 export const Route = createFileRoute("/auth/register")({
@@ -55,6 +56,19 @@ function Register() {
         </Button>
         <div className={styles.divider}>
           Or register with
+        </div>
+        <div className="w-full flex gap-5">
+          {AUTH_PROVIDERS.map((provider) => {
+            const Icon = provider.icon;
+            return (
+              <Button key={provider.label} className={styles.iconButton}>
+                <span className={styles.icon}>
+                  <Icon />
+                </span>
+                <span>{provider.label}</span>
+              </Button>
+            );
+          })}
         </div>
       </CardFooter>
     </Card>
