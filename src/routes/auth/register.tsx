@@ -1,19 +1,16 @@
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
   CardTitle,
 } from "@/components/ui/card";
 import styles from "./register.module.css";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { createFileRoute } from "@tanstack/react-router";
-import { AUTH_PROVIDERS } from "@/components/icons/social-icons";
 import { RegisterForm } from "@/components/auth/register/RegisterForm";
+import { AppleIcon, GoogleIcon } from "@/components/icons/social-icons";
 
 export const Route = createFileRoute("/auth/register")({
   component: Register,
@@ -58,17 +55,18 @@ function Register() {
           Or register with
         </div>
         <div className="w-full flex gap-5">
-          {AUTH_PROVIDERS.map((provider) => {
-            const Icon = provider.icon;
-            return (
-              <Button key={provider.label} className={styles.iconButton}>
-                <span className={styles.icon}>
-                  <Icon />
-                </span>
-                <span>{provider.label}</span>
-              </Button>
-            );
-          })}
+          <Button className={styles.iconButton}>
+            <span className={styles.icon}>
+              <GoogleIcon />
+            </span>
+            <span>Google</span>
+          </Button>
+          <Button className={styles.iconButton}>
+            <span className={styles.icon}>
+              <AppleIcon />
+            </span>
+            <span>Apple</span>
+          </Button>
         </div>
       </CardFooter>
     </Card>
