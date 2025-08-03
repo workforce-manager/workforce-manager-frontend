@@ -1,3 +1,12 @@
+.link {
+  color: #B5A7F0;
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: #FFF;
+}
+
 .checkbox {
   width: 24px;
   height: 24px;
