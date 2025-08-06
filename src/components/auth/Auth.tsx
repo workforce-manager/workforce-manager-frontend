@@ -40,7 +40,7 @@ export function Auth({ mode }: { mode: AuthMode }) {
 
       <CardContent className="px-0 pt-6">
         <AuthForm mode={mode} />
-        {mode === "register" ? (
+        {mode === "register" && (
           <div className="flex items-center gap-4 pt-5">
             <Checkbox className={styles.checkbox} />
             <span className="text-white">
@@ -50,14 +50,14 @@ export function Auth({ mode }: { mode: AuthMode }) {
               </a>
             </span>
           </div>
-        ) : null}
+        )}
       </CardContent>
 
       <CardFooter className="p-0 flex flex-col gap-5">
-        <Button className={styles.button}>
+        <Button form="auth" className={styles.button}>
           {mode === "register" ? "Create account" : "Log in"}
         </Button>
-        {mode === "register" ? (
+        {mode === "register" && (
           <>
             <div className={styles.divider}>
               Or register with
@@ -77,7 +77,7 @@ export function Auth({ mode }: { mode: AuthMode }) {
               </Button>
             </div>
           </>
-        ) : null}
+        )}
       </CardFooter>
     </Card>
   );
