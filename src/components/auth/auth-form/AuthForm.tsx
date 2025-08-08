@@ -37,12 +37,12 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
     <Form {...form}>
       <form id="auth" onSubmit={form.handleSubmit(onSubmit)}>
         {mode === "register" && (
-          <div className="flex gap-5 pb-5">
+          <div className="w-full flex gap-5 pb-5">
             <FormField
               control={form.control}
               name="firstName"
               render={({ field, fieldState }) => (
-                <FormItem>
+                <FormItem className="flex-1">
                   <FormControl>
                     <Input
                       {...field}
@@ -62,14 +62,14 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
               control={form.control}
               name="lastName"
               render={({ field, fieldState }) => (
-                <FormItem>
+                <FormItem className="flex-1">
                   <FormControl>
                     <Input
                       {...field}
                       type="text"
                       placeholder="Last name"
                       className={cn(
-                        styles.input, 
+                        styles.input,
                         fieldState.invalid && styles.error
                       )}
                     />
@@ -93,7 +93,7 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
                     type="email"
                     placeholder="Enter your email"
                     className={cn(
-                      styles.input, 
+                      styles.input,
                       fieldState.invalid && styles.error
                     )}
                   />
@@ -114,7 +114,7 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
                       className={cn(
-                        styles.input, 
+                        styles.input,
                         fieldState.invalid && styles.error
                       )}
                     />

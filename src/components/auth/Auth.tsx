@@ -14,10 +14,10 @@ import { AppleIcon, GoogleIcon } from "@/components/icons/social-icons";
 
 export function Auth({ mode }: { mode: AuthMode }) {
   return (
-    <Card className="bg-transparent border-none p-3">
+    <Card className={styles.authWrapper}>
       <div>
-        <CardTitle className="text-white text-5xl pb-6">
-          {mode === "register" ? "Create an account" : "Log in to your account" }
+        <CardTitle className="text-white text-5xl pb-5">
+          {mode === "register" ? "Create an account" : "Log in to your account"}
         </CardTitle>
         <CardDescription className="text-[#ACA9AC] text-base">
           {mode === "register" ? (
@@ -38,14 +38,14 @@ export function Auth({ mode }: { mode: AuthMode }) {
         </CardDescription>
       </div>
 
-      <CardContent className="px-0 pt-6">
+      <CardContent className="px-0 py-6">
         <AuthForm mode={mode} />
         {mode === "register" && (
           <div className="flex items-center gap-4 pt-5">
             <Checkbox className={styles.checkbox} />
             <span className="text-white">
               I agree to the{" "}
-              <a className="underline text-[#B5A7F0] hover:text-white">
+              <a className="text-[#B5A7F0] hover:text-white cursor-pointer">
                 Terms & Conditions
               </a>
             </span>
