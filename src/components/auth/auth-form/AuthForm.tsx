@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import styles from "./AuthForm.module.css";
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { defaultValues } from "@/config/authForm";
 import { AuthMode } from "@/shared/types/mode.type";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserFormValues, userSchema } from "@/lib/schemas";
@@ -19,12 +20,7 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<UserFormValues>({ 
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-    },
+    defaultValues,
     mode: "onChange",
     resolver: yupResolver(userSchema),
   });
