@@ -16,10 +16,10 @@ export function Auth({ mode }: { mode: AuthMode }) {
   return (
     <Card className={styles.authWrapper}>
       <div>
-        <CardTitle className="text-white text-5xl pb-5">
+        <CardTitle className="text-white text-[50px] leading-[1] pb-6">
           {mode === "register" ? "Create an account" : "Log in to your account"}
         </CardTitle>
-        <CardDescription className="text-[#ACA9AC] text-base">
+        <CardDescription className="text-[#ACA9AC] text-lg">
           {mode === "register" ? (
             <>
               Already have an account?{" "}
@@ -41,9 +41,9 @@ export function Auth({ mode }: { mode: AuthMode }) {
       <CardContent className="px-0 py-6">
         <AuthForm mode={mode} />
         {mode === "register" && (
-          <div className="flex items-center gap-4 pt-5">
+          <div className="flex items-center gap-4 pt-6">
             <Checkbox className={styles.checkbox} />
-            <span className="text-white">
+            <span className="text-white text-base">
               I agree to the{" "}
               <a className="text-[#B5A7F0] hover:text-white cursor-pointer">
                 Terms & Conditions
@@ -53,7 +53,7 @@ export function Auth({ mode }: { mode: AuthMode }) {
         )}
       </CardContent>
 
-      <CardFooter className="p-0 flex flex-col gap-5">
+      <CardFooter className="p-0 flex flex-col gap-6">
         <Button form="auth" className={styles.button}>
           {mode === "register" ? "Create account" : "Log in"}
         </Button>
@@ -62,7 +62,7 @@ export function Auth({ mode }: { mode: AuthMode }) {
             <div className={styles.divider}>
               Or register with
             </div>
-            <div className="w-full flex gap-5">
+            <div className="w-full flex gap-6">
               <Button className={styles.iconButton}>
                 <span className={styles.icon}>
                   <GoogleIcon />

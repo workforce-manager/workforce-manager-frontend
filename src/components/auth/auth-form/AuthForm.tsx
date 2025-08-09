@@ -33,7 +33,7 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
     <Form {...form}>
       <form id="auth" onSubmit={form.handleSubmit(onSubmit)}>
         {mode === "register" && (
-          <div className="w-full flex gap-5 pb-5">
+          <div className="w-full flex gap-6 pb-6">
             <FormField
               control={form.control}
               name="firstName"
@@ -77,7 +77,7 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
           </div>
         )}
 
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-6">
           <FormField
             control={form.control}
             name="email"
