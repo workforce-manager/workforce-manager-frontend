@@ -6,13 +6,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import styles from "./Auth.module.css";
+import { registerUser } from "@/api/register";
 import { Button } from "@/components/ui/button";
 import { AuthMode } from "@/shared/types/mode.type";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useMutation } from "@tanstack/react-query";
 import { AuthForm } from "@/components/auth/auth-form/AuthForm";
 import { AppleIcon, GoogleIcon } from "@/components/icons/social-icons";
 
 export function Auth({ mode }: { mode: AuthMode }) {
+  const { mutate } = useMutation({
+    mutationFn: registerUser,
+  });
+
   return (
     <Card className={styles.authWrapper}>
       <div>
@@ -39,7 +45,7 @@ export function Auth({ mode }: { mode: AuthMode }) {
       </div>
 
       <CardContent className="px-0 py-6">
-        <AuthForm mode={mode} />
+        <AuthForm mode={mode} mutate={mutate} />
         {mode === "register" && (
           <div className="flex items-center gap-4 pt-6">
             <Checkbox className={styles.checkbox} />
