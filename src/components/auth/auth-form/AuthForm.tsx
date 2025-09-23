@@ -11,12 +11,21 @@ import { useForm } from "react-hook-form";
 import styles from "./AuthForm.module.css";
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
+// import { registerUser } from "@/api/register";
 import { defaultValues } from "@/config/authForm";
 import { AuthMode } from "@/shared/types/mode.type";
+// import { useMutation } from "@tanstack/react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { UserFormValues, userSchema } from "@/lib/schemas";
+import { RegisterPayload } from "@/shared/interfaces/user.interface";
+import { UseMutateFunction } from "@tanstack/react-query";
 
-export function AuthForm({ mode }: { mode: AuthMode }) {
+type AuthFormProps = {
+  mode: AuthMode;
+  mutate: UseMutateFunction<any, Error, RegisterPayload, unknown>;
+};
+
+export function AuthForm({ mode, mutate }: AuthFormProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<UserFormValues>({ 
@@ -25,9 +34,18 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
     resolver: yupResolver(userSchema),
   });
 
-  const onSubmit = (values: UserFormValues) => {
-    console.log("SUBMIT", values);
-  }
+  // const { mutate } = useMutation({
+  //   mutationFn: registerUser,
+  // });
+
+  const onSubmit = (formData: UserFormValues) => {
+    const payload: RegisterPayload = {
+      name: `${formData.firstName} ${formData.lastName}`,
+      email: formData.email,
+      password: formData.password,
+    };
+    mutate(payload);
+  };
 
   return (
     <Form {...form}>
