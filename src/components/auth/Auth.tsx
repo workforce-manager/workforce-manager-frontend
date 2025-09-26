@@ -5,18 +5,35 @@ import {
   CardFooter,
   CardTitle,
 } from "@/components/ui/card";
+import { useState } from "react";
 import styles from "./Auth.module.css";
 import { registerUser } from "@/api/register";
 import { Button } from "@/components/ui/button";
 import { AuthMode } from "@/shared/types/mode.type";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import { AuthForm } from "@/components/auth/auth-form/AuthForm";
 import { AppleIcon, GoogleIcon } from "@/components/icons/social-icons";
+import type { RegisterPayload } from "@/shared/interfaces/user.interface";
 
 export function Auth({ mode }: { mode: AuthMode }) {
-  const { mutate } = useMutation({
+  const navigate = useNavigate();
+  const [isTermsAccepted, setIsTermsAccepted] = useState(false);
+
+  const { mutate, isPending } = useMutation<any, Error, RegisterPayload>({
     mutationFn: registerUser,
+    onSuccess: () => {
+      navigate({ to: "/" });
+    },
+    onError: (error: unknown) => {
+      const message =
+        typeof error === "string"
+          ? error
+          : (error as any)?.message || "Registration failed";
+      // Replace with toast later
+      window.alert(message);
+    },
   });
 
   return (
@@ -48,7 +65,11 @@ export function Auth({ mode }: { mode: AuthMode }) {
         <AuthForm mode={mode} mutate={mutate} />
         {mode === "register" && (
           <div className="flex items-center gap-4 pt-6">
-            <Checkbox className={styles.checkbox} />
+            <Checkbox
+              className={styles.checkbox}
+              checked={isTermsAccepted}
+              onCheckedChange={(checked) => setIsTermsAccepted(Boolean(checked))}
+            />
             <span className="text-white text-base">
               I agree to the{" "}
               <a className="text-[#B5A7F0] hover:text-white cursor-pointer">
@@ -60,8 +81,19 @@ export function Auth({ mode }: { mode: AuthMode }) {
       </CardContent>
 
       <CardFooter className="p-0 flex flex-col gap-6">
-        <Button form="auth" className={styles.button}>
-          {mode === "register" ? "Create account" : "Log in"}
+        <Button
+          form="auth"
+          className={styles.button}
+          disabled={isPending || (mode === "register" && !isTermsAccepted)}
+        >
+          {isPending
+            ? mode === "register"
+              ? "Creating..."
+              : "Logging in..."
+            : mode === "register"
+              ? "Create account"
+              : "Log in"
+          }
         </Button>
         {mode === "register" && (
           <>

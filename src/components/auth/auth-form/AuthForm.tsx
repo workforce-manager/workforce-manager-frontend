@@ -11,14 +11,12 @@ import { useForm } from "react-hook-form";
 import styles from "./AuthForm.module.css";
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
-// import { registerUser } from "@/api/register";
 import { defaultValues } from "@/config/authForm";
 import { AuthMode } from "@/shared/types/mode.type";
-// import { useMutation } from "@tanstack/react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { UseMutateFunction } from "@tanstack/react-query";
 import { UserFormValues, userSchema } from "@/lib/schemas";
 import { RegisterPayload } from "@/shared/interfaces/user.interface";
-import { UseMutateFunction } from "@tanstack/react-query";
 
 type AuthFormProps = {
   mode: AuthMode;
@@ -33,10 +31,6 @@ export function AuthForm({ mode, mutate }: AuthFormProps) {
     mode: "onChange",
     resolver: yupResolver(userSchema),
   });
-
-  // const { mutate } = useMutation({
-  //   mutationFn: registerUser,
-  // });
 
   const onSubmit = (formData: UserFormValues) => {
     const payload: RegisterPayload = {
