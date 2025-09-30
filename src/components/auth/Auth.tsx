@@ -8,6 +8,7 @@ import {
 import { useState } from "react";
 import styles from "./Auth.module.css";
 import { registerUser } from "@/api/register";
+import { UserFormValues } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
 import { AuthMode } from "@/shared/types/mode.type";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -23,6 +24,7 @@ export function Auth({ mode }: { mode: AuthMode }) {
 
   const [isTermsAccepted, setIsTermsAccepted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [lastPayload, setLastPayload] = useState<RegisterPayload | null>(null);
 
   const { mutate, isPending } = useMutation<any, Error, RegisterPayload>({
     mutationFn: registerUser,
@@ -38,11 +40,28 @@ export function Auth({ mode }: { mode: AuthMode }) {
     },
   });
 
+  const onSubmit = (formData: UserFormValues) => {
+    const payload: RegisterPayload = {
+      name: `${formData.firstName} ${formData.lastName}`,
+      email: formData.email,
+      password: formData.password,
+    };
+    setLastPayload(payload);
+    mutate(payload);
+  };
+
+  const handleRetry = () => {
+    if (lastPayload) {
+      mutate(lastPayload);
+    }
+  };
+
   return (
     <>
       {errorMessage ? (
         <ErrorScreen 
-          message={errorMessage} 
+          message={errorMessage}
+          onTryAgain={handleRetry}
           onGoBack={() => setErrorMessage(null)} 
         />
       ) : (
@@ -71,7 +90,7 @@ export function Auth({ mode }: { mode: AuthMode }) {
           </div>
 
           <CardContent className="px-0 py-6">
-            <AuthForm mode={mode} mutate={mutate} />
+            <AuthForm mode={mode} onSubmit={onSubmit} />
             {mode === "register" && (
               <div className="flex items-center gap-4 pt-6">
                 <Checkbox

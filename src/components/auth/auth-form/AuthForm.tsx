@@ -14,16 +14,14 @@ import { Input } from "@/components/ui/input";
 import { defaultValues } from "@/config/authForm";
 import { AuthMode } from "@/shared/types/mode.type";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { UseMutateFunction } from "@tanstack/react-query";
 import { UserFormValues, userSchema } from "@/lib/schemas";
-import { RegisterPayload } from "@/shared/interfaces/user.interface";
 
 type AuthFormProps = {
   mode: AuthMode;
-  mutate: UseMutateFunction<any, Error, RegisterPayload, unknown>;
+  onSubmit: (formData: UserFormValues) => void;
 };
 
-export function AuthForm({ mode, mutate }: AuthFormProps) {
+export function AuthForm({ mode, onSubmit }: AuthFormProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<UserFormValues>({ 
@@ -32,18 +30,13 @@ export function AuthForm({ mode, mutate }: AuthFormProps) {
     resolver: yupResolver(userSchema),
   });
 
-  const onSubmit = (formData: UserFormValues) => {
-    const payload: RegisterPayload = {
-      name: `${formData.firstName} ${formData.lastName}`,
-      email: formData.email,
-      password: formData.password,
-    };
-    mutate(payload);
+  const handleSubmit = (formData: UserFormValues) => {
+    onSubmit(formData);
   };
 
   return (
     <Form {...form}>
-      <form id="auth" onSubmit={form.handleSubmit(onSubmit)}>
+      <form id="auth" onSubmit={form.handleSubmit(handleSubmit)}>
         {mode === "register" && (
           <div className="w-full flex gap-6 pb-6">
             <FormField

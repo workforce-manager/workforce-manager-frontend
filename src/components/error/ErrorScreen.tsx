@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 
 export function ErrorScreen({
   message,
+  onTryAgain,
   onGoBack 
 }: { 
   message: string;
+  onTryAgain: () => void;
   onGoBack: () => void;
 }) {
   const handleGoBack = () => {
@@ -32,7 +34,7 @@ export function ErrorScreen({
         <div className="w-full flex gap-4 justify-center">
           <Button
             className={styles.retryButton}
-            onClick={() => window.location.reload()}
+            onClick={onTryAgain}
           >
             Try Again
           </Button>
