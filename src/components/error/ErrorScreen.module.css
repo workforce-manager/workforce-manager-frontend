@@ -1,0 +1,48 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.errorImageBox {
+  width: 100%;
+  max-width: 42rem;
+  height: 20rem;
+  /* margin-bottom: 2rem; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.retryButton {
+  flex: 1;
+  color: white;
+  min-width: 180px;
+  padding: 1.5rem 4rem;
+  font-size: 1.125rem;
+  background-color: #7C3AED;
+}
+
+.retryButton:hover {
+  background-color: #6D28D9;
+}
+
+.goBackButton {
+  flex: 1;
+  color: #7C3AED;
+  min-width: 180px;
+  padding: 1.5rem 4rem;
+  font-size: 1.125rem;
+  border: 1px solid #7C3AED;
+}
+
+.goBackButton:hover {
+  color: white;
+  background-color: #6D28D9;
+}
