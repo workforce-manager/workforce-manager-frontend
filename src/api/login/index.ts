@@ -1,12 +1,12 @@
 import axios from "axios";
 import { httpClient } from "..";
-import { RegisterPayload } from "@/shared/interfaces/auth.interface";
+import { LoginPayload } from "@/shared/interfaces/auth.interface";
 
-const ENDPOINT = "/api/auth/register";
+const ENDPOINT = "/api/auth/login";
 
-export const REGISTER_USER = "REGISTER_USER";
+export const LOGIN = "LOGIN";
 
-export const registerUser = async (payload: RegisterPayload) => {
+export const login = async (payload: LoginPayload) => {
   try {
     const { data } = await httpClient.post(`${ENDPOINT}`, payload);
     return data;

@@ -17,7 +17,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { ErrorScreen } from "@/components/error/ErrorScreen";
 import { AuthForm } from "@/components/auth/auth-form/AuthForm";
 import { AppleIcon, GoogleIcon } from "@/components/icons/social-icons";
-import type { RegisterPayload } from "@/shared/interfaces/user.interface";
+import type { RegisterPayload } from "@/shared/interfaces/auth.interface";
 
 export function Auth({ mode }: { mode: AuthMode }) {
   const navigate = useNavigate();
