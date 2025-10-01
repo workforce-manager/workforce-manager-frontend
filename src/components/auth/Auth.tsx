@@ -7,13 +7,13 @@ import {
 } from "@/components/ui/card";
 import { useState } from "react";
 import styles from "./Auth.module.css";
-import { registerUser } from "@/api/register";
-import { UserFormValues } from "@/lib/schemas";
+import { register } from "@/api/register";
 import { Button } from "@/components/ui/button";
 import { AuthMode } from "@/shared/types/mode.type";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
+import { RegisterFormValues } from "@/lib/schemas/register";
 import { ErrorScreen } from "@/components/error/ErrorScreen";
 import { AuthForm } from "@/components/auth/auth-form/AuthForm";
 import { AppleIcon, GoogleIcon } from "@/components/icons/social-icons";
@@ -27,7 +27,7 @@ export function Auth({ mode }: { mode: AuthMode }) {
   const [lastPayload, setLastPayload] = useState<RegisterPayload | null>(null);
 
   const { mutate, isPending } = useMutation<any, Error, RegisterPayload>({
-    mutationFn: registerUser,
+    mutationFn: register,
     onSuccess: () => {
       navigate({ to: "/" });
     },
@@ -40,7 +40,7 @@ export function Auth({ mode }: { mode: AuthMode }) {
     },
   });
 
-  const onSubmit = (formData: UserFormValues) => {
+  const onSubmit = (formData: RegisterFormValues) => {
     const payload: RegisterPayload = {
       name: `${formData.firstName} ${formData.lastName}`,
       email: formData.email,

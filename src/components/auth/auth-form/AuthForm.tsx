@@ -14,23 +14,23 @@ import { Input } from "@/components/ui/input";
 import { defaultValues } from "@/config/authForm";
 import { AuthMode } from "@/shared/types/mode.type";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { UserFormValues, userSchema } from "@/lib/schemas";
+import { RegisterFormValues, registerSchema } from "@/lib/schemas/register";
 
 type AuthFormProps = {
   mode: AuthMode;
-  onSubmit: (formData: UserFormValues) => void;
+  onSubmit: (formData: RegisterFormValues) => void;
 };
 
 export function AuthForm({ mode, onSubmit }: AuthFormProps) {
   const [showPassword, setShowPassword] = useState(false);
 
-  const form = useForm<UserFormValues>({ 
+  const form = useForm<RegisterFormValues>({ 
     defaultValues,
     mode: "onChange",
-    resolver: yupResolver(userSchema),
+    resolver: yupResolver(registerSchema),
   });
 
-  const handleSubmit = (formData: UserFormValues) => {
+  const handleSubmit = (formData: RegisterFormValues) => {
     onSubmit(formData);
   };
 

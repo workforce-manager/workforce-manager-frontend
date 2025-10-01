@@ -4,9 +4,9 @@ import { RegisterPayload } from "@/shared/interfaces/auth.interface";
 
 const ENDPOINT = "/api/auth/register";
 
-export const REGISTER_USER = "REGISTER_USER";
+export const REGISTER = "REGISTER";
 
-export const registerUser = async (payload: RegisterPayload) => {
+export const register = async (payload: RegisterPayload) => {
   try {
     const { data } = await httpClient.post(`${ENDPOINT}`, payload);
     return data;
