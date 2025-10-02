@@ -1,0 +1,41 @@
+.input {
+  padding: 1.75rem;
+  color: #FFF;
+  box-shadow: none;
+  border-radius: 0.375rem;
+  background-color: #3C364C;
+  border: 1px solid transparent;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #B5A7F0;
+}
+
+.input::placeholder {
+  color: #767384;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.07em;
+}
+
+.error {
+  border-color: #F36D97 !important;
+}
+
+.errorMessage {
+  color: #F36D97;
+  letter-spacing: 0.07em;
+}
+
+.button {
+  color: #767384;
+  position: absolute;
+  top: 50%;
+  right: 1.5rem;
+  transform: translateY(-50%);
+}
+
+.button:hover {
+  color: #FFF;
+}

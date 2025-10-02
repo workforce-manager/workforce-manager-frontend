@@ -8,25 +8,49 @@ import {
 import { useState } from "react";
 import styles from "./Auth.module.css";
 import { register } from "@/api/register";
+import { login } from "@/api/login";
 import { Button } from "@/components/ui/button";
 import { AuthMode } from "@/shared/types/mode.type";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
+import { LoginFormValues } from "@/lib/schemas/login";
 import { RegisterFormValues } from "@/lib/schemas/register";
 import { ErrorScreen } from "@/components/error/ErrorScreen";
-import { AuthForm } from "@/components/auth/auth-form/AuthForm";
+import { LoginForm } from "@/components/auth/login-form/LoginForm";
 import { AppleIcon, GoogleIcon } from "@/components/icons/social-icons";
-import type { RegisterPayload } from "@/shared/interfaces/auth.interface";
+import { RegisterForm } from "@/components/auth/register-form/RegisterForm";
+import type { RegisterPayload, LoginPayload } from "@/shared/interfaces/auth.interface";
 
 export function Auth({ mode }: { mode: AuthMode }) {
   const navigate = useNavigate();
 
   const [isTermsAccepted, setIsTermsAccepted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [lastPayload, setLastPayload] = useState<RegisterPayload | null>(null);
+  const [lastLoginPayload, setLastLoginPayload] = useState<LoginPayload | null>(null);
+  const [lastRegisterPayload, setLastRegisterPayload] = useState<RegisterPayload | null>(null);
 
-  const { mutate, isPending } = useMutation<any, Error, RegisterPayload>({
+  const {
+    mutate: loginMutate,
+    isPending: isLoginPending,
+  } = useMutation<any, Error, LoginPayload>({
+    mutationFn: login,
+    onSuccess: () => {
+      navigate({ to: "/" });
+    },
+    onError: (error: unknown) => {
+      const message =
+        typeof error === "string"
+          ? error
+          : (error as any)?.message || "Login failed";
+      setErrorMessage(message);
+    },
+  });
+
+  const {
+    mutate: registerMutate,
+    isPending: isRegisterPending,
+  } = useMutation<any, Error, RegisterPayload>({
     mutationFn: register,
     onSuccess: () => {
       navigate({ to: "/" });
@@ -40,21 +64,34 @@ export function Auth({ mode }: { mode: AuthMode }) {
     },
   });
 
-  const onSubmit = (formData: RegisterFormValues) => {
+  const handleLoginSubmit = (formData: LoginFormValues) => {
+    const payload: LoginPayload = {
+      email: formData.email,
+      password: formData.password,
+    };
+    setLastLoginPayload(payload);
+    loginMutate(payload);
+  };
+
+  const handleRegisterSubmit = (formData: RegisterFormValues) => {
     const payload: RegisterPayload = {
       name: `${formData.firstName} ${formData.lastName}`,
       email: formData.email,
       password: formData.password,
     };
-    setLastPayload(payload);
-    mutate(payload);
+    setLastRegisterPayload(payload);
+    registerMutate(payload);
   };
 
   const handleRetry = () => {
-    if (lastPayload) {
-      mutate(lastPayload);
+    if (mode === "login" && lastLoginPayload) {
+      loginMutate(lastLoginPayload);
+    } else if (mode === "register" && lastRegisterPayload) {
+      registerMutate(lastRegisterPayload);
     }
   };
+
+  const isPending = isLoginPending || isRegisterPending;
 
   return (
     <>
@@ -90,21 +127,25 @@ export function Auth({ mode }: { mode: AuthMode }) {
           </div>
 
           <CardContent className="px-0 py-6">
-            <AuthForm mode={mode} onSubmit={onSubmit} />
-            {mode === "register" && (
-              <div className="flex items-center gap-4 pt-6">
-                <Checkbox
-                  className={styles.checkbox}
-                  checked={isTermsAccepted}
-                  onCheckedChange={(checked) => setIsTermsAccepted(Boolean(checked))}
-                />
-                <span className="text-white text-base">
-                  I agree to the{" "}
-                  <a className="text-[#B5A7F0] hover:text-white cursor-pointer">
-                    Terms & Conditions
-                  </a>
-                </span>
-              </div>
+            {mode === "login" ? (
+              <LoginForm onSubmit={handleLoginSubmit} />
+            ) : (
+              <>
+                <RegisterForm onSubmit={handleRegisterSubmit} />
+                <div className="flex items-center gap-4 pt-6">
+                  <Checkbox
+                    className={styles.checkbox}
+                    checked={isTermsAccepted}
+                    onCheckedChange={(checked) => setIsTermsAccepted(Boolean(checked))}
+                  />
+                  <span className="text-white text-base">
+                    I agree to the{" "}
+                    <a className="text-[#B5A7F0] hover:text-white cursor-pointer">
+                      Terms & Conditions
+                    </a>
+                  </span>
+                </div>
+              </>
             )}
           </CardContent>
 

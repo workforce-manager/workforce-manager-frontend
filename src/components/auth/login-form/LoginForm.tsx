@@ -8,80 +8,35 @@ import {
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import styles from "./AuthForm.module.css";
 import { Eye, EyeOff } from "lucide-react";
+import styles from "./LoginForm.module.css";
 import { Input } from "@/components/ui/input";
-import { defaultValues } from "@/config/authForm";
-import { AuthMode } from "@/shared/types/mode.type";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { RegisterFormValues, registerSchema } from "@/lib/schemas/register";
+import { LoginFormValues, loginSchema } from "@/lib/schemas/login";
 
-type AuthFormProps = {
-  mode: AuthMode;
-  onSubmit: (formData: RegisterFormValues) => void;
+type LoginFormProps = {
+  onSubmit: (formData: LoginFormValues) => void;
 };
 
-export function AuthForm({ mode, onSubmit }: AuthFormProps) {
+export function LoginForm({ onSubmit }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false);
 
-  const form = useForm<RegisterFormValues>({ 
-    defaultValues,
+  const form = useForm<LoginFormValues>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
     mode: "onChange",
-    resolver: yupResolver(registerSchema),
+    resolver: yupResolver(loginSchema),
   });
 
-  const handleSubmit = (formData: RegisterFormValues) => {
+  const handleSubmit = (formData: LoginFormValues) => {
     onSubmit(formData);
   };
 
   return (
     <Form {...form}>
       <form id="auth" onSubmit={form.handleSubmit(handleSubmit)}>
-        {mode === "register" && (
-          <div className="w-full flex gap-6 pb-6">
-            <FormField
-              control={form.control}
-              name="firstName"
-              render={({ field, fieldState }) => (
-                <FormItem className="flex-1">
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="text"
-                      placeholder="First name"
-                      className={cn(
-                        styles.input,
-                        fieldState.invalid && styles.error
-                      )}
-                    />
-                  </FormControl>
-                  <FormMessage className={styles.errorMessage} />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="lastName"
-              render={({ field, fieldState }) => (
-                <FormItem className="flex-1">
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="text"
-                      placeholder="Last name"
-                      className={cn(
-                        styles.input,
-                        fieldState.invalid && styles.error
-                      )}
-                    />
-                  </FormControl>
-                  <FormMessage className={styles.errorMessage} />
-                </FormItem>
-              )}
-            />
-          </div>
-        )}
-
         <div className="flex flex-col gap-6">
           <FormField
             control={form.control}
