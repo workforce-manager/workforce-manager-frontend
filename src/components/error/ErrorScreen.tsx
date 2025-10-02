@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 
 export function ErrorScreen({
   message,
-  onTryAgain,
-  onGoBack 
+  onGoBack,
+  onTryAgain
 }: { 
   message: string;
-  onTryAgain: () => void;
   onGoBack: () => void;
+  onTryAgain: () => void;
 }) {
   const handleGoBack = () => {
     onGoBack();
