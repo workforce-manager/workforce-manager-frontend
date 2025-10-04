@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { login } from "@/api/login";
 import { register } from "@/api/register";
-import { AuthCard } from "./auth-card/AuthCard";
+import { LoginForm } from "./login-form/LoginForm";
 import { AuthMode } from "@/shared/types/mode.type";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { LoginFormValues } from "@/lib/schemas/login";
+import { RegisterForm } from "./register-form/RegisterForm";
 import { RegisterFormValues } from "@/lib/schemas/register";
 import { ErrorScreen } from "@/components/error/ErrorScreen";
 import type { RegisterPayload, LoginPayload } from "@/shared/interfaces/auth.interface";
@@ -79,26 +80,25 @@ export function Auth({ mode }: { mode: AuthMode }) {
     }
   };
 
-  const isPending = isLoginPending || isRegisterPending;
-
-  return (
-    <>
-      {errorMessage ? (
-        <ErrorScreen 
-          message={errorMessage}
-          onGoBack={() => setErrorMessage(null)}
-          onTryAgain={handleRetry}
-        />
-      ) : (
-        <AuthCard
-          handleLoginSubmit={handleLoginSubmit}
-          handleRegisterSubmit={handleRegisterSubmit}
-          isPending={isPending}
-          isTermsAccepted={isTermsAccepted}
-          mode={mode}
-          setIsTermsAccepted={setIsTermsAccepted}
-        />
-      )}
-    </>
+  return errorMessage ? (
+    <ErrorScreen 
+      message={errorMessage}
+      onGoBack={() => setErrorMessage(null)}
+      onTryAgain={handleRetry}
+    />
+  ) : (
+    mode === "login" ? (
+      <LoginForm 
+        isPending={isLoginPending}
+        onSubmit={handleLoginSubmit}
+      />
+    ) : (
+      <RegisterForm
+        isPending={isRegisterPending}
+        isTermsAccepted={isTermsAccepted}
+        onSubmit={handleRegisterSubmit}
+        setIsTermsAccepted={setIsTermsAccepted}
+      />
+    )
   );
 }
