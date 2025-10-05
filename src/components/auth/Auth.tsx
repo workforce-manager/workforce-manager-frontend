@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { login } from "@/api/login";
+import { useAuth } from "@/hooks/useAuth";
 import { register } from "@/api/register";
+import { login as loginAPI } from "@/api/login";
 import { LoginForm } from "./login-form/LoginForm";
 import { AuthMode } from "@/shared/types/mode.type";
 import { useMutation } from "@tanstack/react-query";
@@ -9,10 +10,11 @@ import { LoginFormValues } from "@/lib/schemas/login";
 import { RegisterForm } from "./register-form/RegisterForm";
 import { RegisterFormValues } from "@/lib/schemas/register";
 import { ErrorScreen } from "@/components/error/ErrorScreen";
-import type { RegisterPayload, LoginPayload } from "@/shared/interfaces/auth.interface";
+import type { RegisterPayload, LoginPayload, AuthResponse } from "@/shared/interfaces/auth.interface";
 
 export function Auth({ mode }: { mode: AuthMode }) {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [isTermsAccepted, setIsTermsAccepted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -22,9 +24,10 @@ export function Auth({ mode }: { mode: AuthMode }) {
   const {
     mutate: loginMutate,
     isPending: isLoginPending,
-  } = useMutation<any, Error, LoginPayload>({
-    mutationFn: login,
-    onSuccess: () => {
+  } = useMutation<AuthResponse, Error, LoginPayload>({
+    mutationFn: loginAPI,
+    onSuccess: (data) => {
+      login(data);
       navigate({ to: "/" });
     },
     onError: (error: unknown) => {
@@ -39,9 +42,10 @@ export function Auth({ mode }: { mode: AuthMode }) {
   const {
     mutate: registerMutate,
     isPending: isRegisterPending,
-  } = useMutation<any, Error, RegisterPayload>({
+  } = useMutation<AuthResponse, Error, RegisterPayload>({
     mutationFn: register,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      login(data);
       navigate({ to: "/" });
     },
     onError: (error: unknown) => {
