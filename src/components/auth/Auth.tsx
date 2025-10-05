@@ -1,84 +1,108 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardTitle,
-} from "@/components/ui/card";
-import styles from "./Auth.module.css";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { register } from "@/api/register";
+import { login as loginAPI } from "@/api/login";
+import { LoginForm } from "./login-form/LoginForm";
 import { AuthMode } from "@/shared/types/mode.type";
-import { Checkbox } from "@/components/ui/checkbox";
-import { AuthForm } from "@/components/auth/auth-form/AuthForm";
-import { AppleIcon, GoogleIcon } from "@/components/icons/social-icons";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
+import { LoginFormValues } from "@/lib/schemas/login";
+import { RegisterForm } from "./register-form/RegisterForm";
+import { RegisterFormValues } from "@/lib/schemas/register";
+import { ErrorScreen } from "@/components/error/ErrorScreen";
+import type { RegisterPayload, LoginPayload, AuthResponse } from "@/shared/interfaces/auth.interface";
 
 export function Auth({ mode }: { mode: AuthMode }) {
-  return (
-    <Card className={styles.authWrapper}>
-      <div>
-        <CardTitle className="text-white text-[50px] leading-[1] pb-6">
-          {mode === "register" ? "Create an account" : "Log in to your account"}
-        </CardTitle>
-        <CardDescription className="text-[#ACA9AC] text-lg">
-          {mode === "register" ? (
-            <>
-              Already have an account?{" "}
-              <a href="/auth/login" className={styles.link}>
-                Log in
-              </a>
-            </>
-          ) : (
-            <>
-              Do not have an account?{" "}
-              <a href="/auth/register" className={styles.link}>
-                Sign up
-              </a>
-            </>
-          )}
-        </CardDescription>
-      </div>
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
-      <CardContent className="px-0 py-6">
-        <AuthForm mode={mode} />
-        {mode === "register" && (
-          <div className="flex items-center gap-4 pt-6">
-            <Checkbox className={styles.checkbox} />
-            <span className="text-white text-base">
-              I agree to the{" "}
-              <a className="text-[#B5A7F0] hover:text-white cursor-pointer">
-                Terms & Conditions
-              </a>
-            </span>
-          </div>
-        )}
-      </CardContent>
+  const [isTermsAccepted, setIsTermsAccepted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [lastLoginPayload, setLastLoginPayload] = useState<LoginPayload | null>(null);
+  const [lastRegisterPayload, setLastRegisterPayload] = useState<RegisterPayload | null>(null);
 
-      <CardFooter className="p-0 flex flex-col gap-6">
-        <Button form="auth" className={styles.button}>
-          {mode === "register" ? "Create account" : "Log in"}
-        </Button>
-        {mode === "register" && (
-          <>
-            <div className={styles.divider}>
-              Or register with
-            </div>
-            <div className="w-full flex gap-6">
-              <Button className={styles.iconButton}>
-                <span className={styles.icon}>
-                  <GoogleIcon />
-                </span>
-                <span>Google</span>
-              </Button>
-              <Button className={styles.iconButton}>
-                <span className={styles.icon}>
-                  <AppleIcon />
-                </span>
-                <span>Apple</span>
-              </Button>
-            </div>
-          </>
-        )}
-      </CardFooter>
-    </Card>
+  const {
+    mutate: loginMutate,
+    isPending: isLoginPending,
+  } = useMutation<AuthResponse, Error, LoginPayload>({
+    mutationFn: loginAPI,
+    onSuccess: (data) => {
+      login(data);
+      navigate({ to: "/" });
+    },
+    onError: (error: unknown) => {
+      const message =
+        typeof error === "string"
+          ? error
+          : (error as any)?.message || "Login failed";
+      setErrorMessage(message);
+    },
+  });
+
+  const {
+    mutate: registerMutate,
+    isPending: isRegisterPending,
+  } = useMutation<AuthResponse, Error, RegisterPayload>({
+    mutationFn: register,
+    onSuccess: (data) => {
+      login(data);
+      navigate({ to: "/" });
+    },
+    onError: (error: unknown) => {
+      const message =
+        typeof error === "string"
+          ? error
+          : (error as any)?.message || "Registration failed";
+      setErrorMessage(message);
+    },
+  });
+
+  const handleLoginSubmit = (formData: LoginFormValues) => {
+    const payload: LoginPayload = {
+      email: formData.email,
+      password: formData.password,
+    };
+    setLastLoginPayload(payload);
+    loginMutate(payload);
+  };
+
+  const handleRegisterSubmit = (formData: RegisterFormValues) => {
+    const payload: RegisterPayload = {
+      name: `${formData.firstName} ${formData.lastName}`,
+      email: formData.email,
+      password: formData.password,
+    };
+    setLastRegisterPayload(payload);
+    registerMutate(payload);
+  };
+
+  const handleRetry = () => {
+    if (mode === "login" && lastLoginPayload) {
+      loginMutate(lastLoginPayload);
+    } else if (mode === "register" && lastRegisterPayload) {
+      registerMutate(lastRegisterPayload);
+    }
+  };
+
+  return errorMessage ? (
+    <ErrorScreen 
+      message={errorMessage}
+      onGoBack={() => setErrorMessage(null)}
+      onTryAgain={handleRetry}
+    />
+  ) : (
+    mode === "login" ? (
+      <LoginForm 
+        isPending={isLoginPending}
+        onSubmit={handleLoginSubmit}
+      />
+    ) : (
+      <RegisterForm
+        isPending={isRegisterPending}
+        isTermsAccepted={isTermsAccepted}
+        onSubmit={handleRegisterSubmit}
+        setIsTermsAccepted={setIsTermsAccepted}
+      />
+    )
   );
 }

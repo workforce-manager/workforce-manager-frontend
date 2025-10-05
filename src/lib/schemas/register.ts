@@ -1,7 +1,7 @@
 import * as yup from "yup";
 import { InferType } from "yup";
 
-export const userSchema = yup.object({
+export const registerSchema = yup.object({
   firstName: yup.string()
     .required("First name is required")
     .min(3, "First name must be at least 3 characters")
@@ -28,4 +28,4 @@ export const userSchema = yup.object({
     .matches(/[^A-Za-z0-9]/, "At least one special character"),
 });
 
-export type UserFormValues = InferType<typeof userSchema>;
+export type RegisterFormValues = InferType<typeof registerSchema>;
