@@ -4,50 +4,69 @@ import {
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+import clsx from "clsx";
+import styles from "./Header.module.css";
+import { useAuth } from "@/hooks/useAuth";
 import { useSidebar } from "@/components/sidebar/sidebar";
 import { ArrowLeftToLine, ArrowRightToLine } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const menuItems = [
-  { label: "Profile" },
-  { label: "Settings" },
-  { label: "Logout" },
+  { label: "Profile", isLogout: false },
+  { label: "Settings", isLogout: false },
+  { label: "Logout", isLogout: true },
 ];
 
 export function Header() {
   const { state, toggleSidebar } = useSidebar();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
-    <header className="flex items-center justify-between px-4 py-2">
-      <button onClick={toggleSidebar} className="hover:text-muted-foreground">
+    <header className={styles.header}>
+      <button onClick={toggleSidebar} className={styles.toggleButton}>
         {state === "collapsed" ? (
-          <ArrowRightToLine size={32} /> 
+          <ArrowRightToLine size={24} /> 
         ) : ( 
-          <ArrowLeftToLine size={32} />
+          <ArrowLeftToLine size={24} />
         )}
       </button>
 
-      <h1 className="font-mono text-[20px]">Employees</h1>
+      <div className={styles.userSection}>
+        <span className={styles.userName}>
+          {user?.name || "Username"}
+        </span>
+        
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className={styles.avatarButton}>
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                <AvatarFallback>
+                  {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                </AvatarFallback>
+              </Avatar>
+            </button>
+          </DropdownMenuTrigger>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="link" size="icon">
-            <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </Button>
-        </DropdownMenuTrigger>
-
-        <DropdownMenuContent>
-          {menuItems.map((item) => (
-            <DropdownMenuItem key={item.label}>
-              {item.label}
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
+          <DropdownMenuContent className={styles.dropdownContent}>
+            {menuItems.map((item) => (
+              <DropdownMenuItem 
+                key={item.label}
+                className={clsx(styles.dropdownItem, {
+                  [styles.logout]: item.isLogout,
+                })}
+                onClick={item.isLogout ? handleLogout : undefined}
+              >
+                {item.label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </header>
   );
 }
