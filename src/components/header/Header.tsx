@@ -7,7 +7,7 @@ import {
 import clsx from "clsx";
 import styles from "./Header.module.css";
 import { useAuth } from "@/hooks/useAuth";
-import { useSidebar } from "@/components/sidebar/sidebar";
+import { useSidebar } from "@/components/ui/sidebar";
 import { ArrowLeftToLine, ArrowRightToLine } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
