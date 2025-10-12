@@ -7,17 +7,13 @@ html, body, #root {
   height: 100%;
 }
 
-body {
-  /* background: linear-gradient(135deg, #F5EAFB, #F7F0FF); */
-  /* background: linear-gradient(135deg, #f0e4ff 0%, #fce7f3 50%, #ffffff 100%); */
-  background: #d9a7c7;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #fffcdc, #d9a7c7);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #fffcdc, #d9a7c7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+main {
+  color: #FFF;
+  background: linear-gradient(135deg, #2C2638 0%, #3C364C 100%);
 }
 
 * {
   margin: 0;
-  /* padding: 0; */
   box-sizing: border-box;
 }
 
