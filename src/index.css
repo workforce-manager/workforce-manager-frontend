@@ -9,7 +9,8 @@ html, body, #root {
 
 main {
   color: #FFF;
-  background: linear-gradient(135deg, #2C2638 0%, #3C364C 100%);
+  /* background: linear-gradient(135deg, #2C2638 0%, #3C364C 100%); */
+  background-color: #3C364C;
 }
 
 * {
