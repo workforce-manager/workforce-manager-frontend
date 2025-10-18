@@ -131,7 +131,6 @@
   text-align: right;
 }
 
-/* Responsive design */
 @media (max-width: 1024px) {
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);
@@ -189,7 +188,6 @@
   .testimonialText {
     font-size: 1rem;
   }
-  
 }
 
 @media (max-width: 480px) {

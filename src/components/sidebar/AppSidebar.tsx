@@ -18,15 +18,15 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon" className={styles.sidebar}>
       <SidebarHeader className={styles.sidebarHeader}>
-        <div className="flex items-center">
-          <Users size={32} className={styles.sidebarIcon} />
+        <div className="flex items-center justify-center">
+          <Users size={32} className={`group-data-[state=expanded]:hidden ${styles.collapsedIcon}`} />
           <span className={`group-data-[state=collapsed]:hidden ${styles.sidebarTitle}`}>
             Workforce Manager
           </span>
         </div>
       </SidebarHeader>
 
-      <Separator className="bg-[#B5A7F0]" />
+      <Separator className="bg-[#2C2638]" />
 
       <SidebarContent className="gap-0">
         <SidebarGroup>
@@ -48,7 +48,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <Separator className="bg-[#B5A7F0]" />
+        <Separator className="bg-[#2C2638]" />
 
         <SidebarGroup>
           <SidebarGroupContent>

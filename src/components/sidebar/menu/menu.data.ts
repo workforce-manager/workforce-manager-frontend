@@ -1,12 +1,9 @@
 import { 
-  BarChart3, 
-  Building2, 
-  CalendarClock, 
-  LayoutDashboard, 
-  LifeBuoy,
+  Home,
+  Star,
+  Phone,
+  LogIn,
   LucideIcon,
-  Settings, 
-  Users,
 } from "lucide-react";
 
 export interface IMenuItem {
@@ -17,41 +14,26 @@ export interface IMenuItem {
 
 export const MAIN_ITEMS: IMenuItem[] = [
   {
-    icon: LayoutDashboard,
-    url: "/dashboard",
-    title: "Dashboard", 
+    icon: Home,
+    url: "/",
+    title: "Home", 
   },
   { 
-    icon: Users,
-    url: "/employees",
-    title: "Employees", 
+    icon: Star,
+    url: "/features",
+    title: "Features", 
   },
   { 
-    icon: Building2,
-    url: "/departments",
-    title: "Departments", 
-  },
-  { 
-    icon: BarChart3,
-    url: "/reports",
-    title: "Reports", 
-  },
-  { 
-    icon: CalendarClock,
-    url: "/time-off",
-    title: "Time Off", 
+    icon: Phone,
+    url: "/contact",
+    title: "Contact", 
   },
 ];
 
 export const EXTRA_ITEMS: IMenuItem[] = [
   { 
-    icon: LifeBuoy,
-    url: "/help",
-    title: "Help", 
-  },
-  { 
-    icon: Settings,
-    url: "/settings",
-    title: "Settings", 
+    icon: LogIn,
+    url: "/auth/login",
+    title: "Login", 
   },
 ];

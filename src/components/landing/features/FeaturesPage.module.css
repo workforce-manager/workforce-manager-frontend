@@ -135,7 +135,6 @@
   font-size: 0.95rem;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .featuresSection {
     padding: 3rem 0;
@@ -186,7 +185,6 @@
   }
 }
 
-/* Animation for cards appearing */
 @keyframes fadeInUp {
   from {
     opacity: 0;
