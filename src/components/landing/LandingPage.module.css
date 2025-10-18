@@ -1,0 +1,21 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.heroSection {
+  text-align: center;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.socialProofSection {
+  padding: 2.5rem 0 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

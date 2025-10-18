@@ -1,6 +1,6 @@
 import { Header } from "@/components/header/Header";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
-import { SidebarProvider } from "@/components/sidebar/sidebar";
 import { createRootRoute, Outlet, useRouterState } from "@tanstack/react-router";
 
 export const Route = createRootRoute({

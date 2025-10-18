@@ -1,0 +1,118 @@
+.header {
+  min-height: 4rem;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #3C364C;
+  border-bottom: 1px solid #2C2638;
+}
+
+@media (max-width: 767px) {
+  .header {
+    padding: 1rem;
+  }
+}
+
+.toggleButton {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #B5A7F0;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  background-color: transparent;
+}
+
+.toggleButton:hover {
+  color: #FFF;
+}
+
+.userSection {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.userName {
+  color: #FFF;
+  cursor: default;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  transition: color 0.2s ease;
+}
+
+.userName:hover {
+  color: #B5A7F0;
+}
+
+@media (max-width: 767px) {
+  .userName {
+    display: none;
+  }
+}
+
+.avatarButton {
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  border: 1px solid #3C364C;
+  background-color: transparent;
+}
+
+.avatarButton:hover {
+  border-color: #B5A7F0;
+  background-color: #3C364C;
+}
+
+.dropdownContent {
+  min-width: 12rem;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid #2C2638;
+  background-color: #3C364C;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.dropdownItem {
+  width: 100%;
+  cursor: pointer;
+  line-height: 1.25;
+  color: #FFF;
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 0.25rem;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.dropdownItem:hover {
+  color: #B5A7F0;
+  background-color: rgba(181, 167, 240, 0.1);
+}
+
+.dropdownItem:focus {
+  outline: none;
+  color: #B5A7F0;
+  background-color: rgba(181, 167, 240, 0.1);
+}
+
+.dropdownItem.logout {
+  color: #F36D97;
+}
+
+.dropdownItem.logout:hover,
+.dropdownItem.logout:focus {
+  background-color: rgba(243, 109, 151, 0.1);
+}
