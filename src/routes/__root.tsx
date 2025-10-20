@@ -19,7 +19,9 @@ export const Route = createRootRoute({
           <div className="min-h-0 flex-1 flex flex-col">
             <Header />
             <main className="flex-1 flex justify-center p-4 overflow-auto">
-              <Outlet />
+              <div className="pb-6">
+                <Outlet />
+              </div>
             </main>
           </div>
         </div>
