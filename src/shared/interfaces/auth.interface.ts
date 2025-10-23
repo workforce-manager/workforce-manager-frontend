@@ -12,7 +12,7 @@ export interface LoginPayload {
 export interface User {
   id: string;
   name: string;
-  email: string;
+  role: "ADMIN" | "HR" | "EMPLOYEE";
 }
 
 export interface AuthResponse {
