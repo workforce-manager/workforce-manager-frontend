@@ -1,10 +1,17 @@
 import { Header } from "@/components/header/Header";
+import { useAuthContext } from "@/providers/AuthProvider";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
-import { createRootRoute, Outlet, useRouterState } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet, useRouterState } from "@tanstack/react-router";
 
-export const Route = createRootRoute({
+interface RouterContext {
+  auth: ReturnType<typeof useAuthContext>;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => {
+    const auth = useAuthContext();
+
     const pathname = useRouterState({ 
       select: (state) => state.location.pathname,
     });
