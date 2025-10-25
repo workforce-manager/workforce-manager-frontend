@@ -8,6 +8,7 @@ import clsx from "clsx";
 import styles from "./Header.module.css";
 import { useAuth } from "@/hooks/useAuth";
 import { useSidebar } from "@/components/ui/sidebar";
+import { useNavigate } from "@tanstack/react-router";
 import { ArrowLeftToLine, ArrowRightToLine } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -18,11 +19,13 @@ const menuItems = [
 ];
 
 export function Header() {
-  const { state, toggleSidebar } = useSidebar();
+  const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { state, toggleSidebar } = useSidebar();
 
   const handleLogout = () => {
     logout();
+    navigate({ to: "/", replace: true });
   };
 
   return (

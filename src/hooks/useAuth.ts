@@ -1,20 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { AuthResponse, User } from "@/shared/interfaces/auth.interface";
 
 export function useAuth() {
-  const [user, setUser] = useState<User | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const storedUser = localStorage.getItem("user");
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-      setIsAuthenticated(true);
-    }
-  }, []);
+  const [user, setUser] = useState<User | null>(
+    storedUser ? JSON.parse(storedUser) : null
+  );
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("accessToken"));
 
   const login = (authResponse: AuthResponse) => {
     localStorage.setItem("accessToken", authResponse.accessToken);
     localStorage.setItem("refreshToken", authResponse.refreshToken);
+    localStorage.setItem("user", JSON.stringify(authResponse.user));
     setUser(authResponse.user);
     setIsAuthenticated(true);
   };
@@ -22,6 +20,7 @@ export function useAuth() {
   const logout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
     setUser(null);
     setIsAuthenticated(false);
   };
