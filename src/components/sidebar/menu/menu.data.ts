@@ -2,8 +2,10 @@ import {
   Home,
   Star,
   Phone,
+  LayoutDashboard,
   LogIn,
-  LucideIcon,
+  LogOut,
+  LucideIcon
 } from "lucide-react";
 
 export interface IMenuItem {
@@ -35,5 +37,31 @@ export const EXTRA_ITEMS: IMenuItem[] = [
     icon: LogIn,
     url: "/auth/login",
     title: "Login", 
+  },
+];
+
+export const ADMIN_MAIN_ITEMS: IMenuItem[] = [
+  {
+    icon: LayoutDashboard,
+    url: "/admin/dashboard",
+    title: "Dashboard",
+  },
+  { 
+    icon: Star,
+    url: "/features",
+    title: "Features", 
+  },
+  { 
+    icon: Phone,
+    url: "/contact",
+    title: "Contact", 
+  },
+];
+
+export const ADMIN_EXTRA_ITEMS: IMenuItem[] = [
+  { 
+    icon: LogOut,
+    url: "/admin/logout",
+    title: "Logout", 
   },
 ];

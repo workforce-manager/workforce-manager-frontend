@@ -10,11 +10,14 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Users } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 import { Separator } from "../ui/separator";
 import styles from "./AppSidebar.module.css";
-import { EXTRA_ITEMS, MAIN_ITEMS } from "./menu/menu.data";
+import { ADMIN_EXTRA_ITEMS, ADMIN_MAIN_ITEMS, EXTRA_ITEMS, MAIN_ITEMS } from "./menu/menu.data";
 
 export function AppSidebar() {
+  const { user } = useAuth();
+
   return (
     <Sidebar collapsible="icon" className={styles.sidebar}>
       <SidebarHeader className={styles.sidebarHeader}>
@@ -32,7 +35,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {MAIN_ITEMS.map((item) => (
+              {(user?.role === "ADMIN" ? ADMIN_MAIN_ITEMS : MAIN_ITEMS).map((item) => (
                 <SidebarMenuItem key={item.title} className={styles.menuItem}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
@@ -53,7 +56,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {EXTRA_ITEMS.map((item) => (
+              {(user?.role === "ADMIN" ? ADMIN_EXTRA_ITEMS : EXTRA_ITEMS).map((item) => (
                 <SidebarMenuItem key={item.title} className={styles.menuItem}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
