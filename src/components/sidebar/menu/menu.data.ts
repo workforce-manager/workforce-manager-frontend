@@ -12,6 +12,7 @@ export interface IMenuItem {
   icon: LucideIcon,
   url: string,
   title: string,
+  isLogout?: boolean,
 }
 
 export const MAIN_ITEMS: IMenuItem[] = [
@@ -61,7 +62,8 @@ export const ADMIN_MAIN_ITEMS: IMenuItem[] = [
 export const ADMIN_EXTRA_ITEMS: IMenuItem[] = [
   { 
     icon: LogOut,
-    url: "/admin/logout",
+    url: "#",
     title: "Logout", 
+    isLogout: true,
   },
 ];

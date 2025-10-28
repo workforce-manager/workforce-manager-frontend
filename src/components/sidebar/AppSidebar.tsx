@@ -13,10 +13,17 @@ import { Users } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Separator } from "../ui/separator";
 import styles from "./AppSidebar.module.css";
+import { useNavigate } from "@tanstack/react-router";
 import { ADMIN_EXTRA_ITEMS, ADMIN_MAIN_ITEMS, EXTRA_ITEMS, MAIN_ITEMS } from "./menu/menu.data";
 
 export function AppSidebar() {
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate({ to: "/", replace: true });
+  };
 
   return (
     <Sidebar collapsible="icon" className={styles.sidebar}>
@@ -58,7 +65,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {(user?.role === "ADMIN" ? ADMIN_EXTRA_ITEMS : EXTRA_ITEMS).map((item) => (
                 <SidebarMenuItem key={item.title} className={styles.menuItem}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton onClick={item.isLogout ? handleLogout : undefined} asChild>
                     <a href={item.url}>
                       <span className="w-6 h-6">
                         <item.icon />
