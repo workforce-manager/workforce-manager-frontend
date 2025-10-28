@@ -9,14 +9,9 @@ import styles from "./Header.module.css";
 import { useAuth } from "@/hooks/useAuth";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useNavigate } from "@tanstack/react-router";
+import { HEADER_MENU_ITEMS } from "./menu/header-menu.data";
 import { ArrowLeftToLine, ArrowRightToLine } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-const menuItems = [
-  { label: "Profile", isLogout: false },
-  { label: "Settings", isLogout: false },
-  { label: "Logout", isLogout: true },
-];
 
 export function Header() {
   const navigate = useNavigate();
@@ -26,6 +21,10 @@ export function Header() {
   const handleLogout = () => {
     logout();
     navigate({ to: "/", replace: true });
+  };
+
+  const handleLogin = () => {
+    navigate({ to: "/auth/login" });
   };
 
   return (
@@ -42,7 +41,7 @@ export function Header() {
         <span className={styles.userName}>
           {user?.name || "Username"}
         </span>
-        
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className={styles.avatarButton}>
@@ -56,13 +55,24 @@ export function Header() {
           </DropdownMenuTrigger>
 
           <DropdownMenuContent className={styles.dropdownContent}>
-            {menuItems.map((item) => (
+            {HEADER_MENU_ITEMS.filter((item) => {
+              if (item.isLogin) {
+                return !user;
+              }
+              return !!user;
+            }).map((item) => (
               <DropdownMenuItem 
                 key={item.label}
                 className={clsx(styles.dropdownItem, {
                   [styles.logout]: item.isLogout,
                 })}
-                onClick={item.isLogout ? handleLogout : undefined}
+                onClick={
+                  item.isLogout
+                    ? handleLogout
+                    : item.isLogin
+                      ? handleLogin
+                      : undefined
+                }
               >
                 {item.label}
               </DropdownMenuItem>
