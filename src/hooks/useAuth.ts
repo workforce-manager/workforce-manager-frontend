@@ -1,29 +1,71 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AuthResponse, User } from "@/shared/interfaces/auth.interface";
 
-export function useAuth() {
-  const storedUser = localStorage.getItem("user");
+class AuthState {
+  private user: User | null = null;
+  private isAuthenticated: boolean = false;
+  private listeners: Set<() => void> = new Set();
 
-  const [user, setUser] = useState<User | null>(
-    storedUser ? JSON.parse(storedUser) : null
-  );
-  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("accessToken"));
+  constructor() {
+    const storedUser = localStorage.getItem("user");
+    this.user = storedUser ? JSON.parse(storedUser) : null;
+    this.isAuthenticated = !!localStorage.getItem("accessToken");
+  }
 
-  const login = (authResponse: AuthResponse) => {
+  getState() {
+    return {
+      user: this.user,
+      isAuthenticated: this.isAuthenticated,
+    };
+  }
+
+  login(authResponse: AuthResponse) {
     localStorage.setItem("accessToken", authResponse.accessToken);
     localStorage.setItem("refreshToken", authResponse.refreshToken);
     localStorage.setItem("user", JSON.stringify(authResponse.user));
-    setUser(authResponse.user);
-    setIsAuthenticated(true);
-  };
+    this.user = authResponse.user;
+    this.isAuthenticated = true;
+    this.notify();
+  }
 
-  const logout = () => {
+  logout() {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
-    setUser(null);
-    setIsAuthenticated(false);
-  };
+    this.user = null;
+    this.isAuthenticated = false;
+    this.notify();
+  }
 
-  return { user, isAuthenticated, login, logout };
+  subscribe(listener: () => void) {
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  }
+
+  private notify() {
+    this.listeners.forEach(listener => listener());
+  }
+}
+
+const authInstance = new AuthState();
+
+export function useAuth() {
+  const [, forceUpdate] = useState({});
+
+  useEffect(() => {
+    const unsubscribe = authInstance.subscribe(() => {
+      forceUpdate({});
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const state = authInstance.getState();
+
+  return {
+    ...state,
+    login: (authResponse: AuthResponse) => authInstance.login(authResponse),
+    logout: () => authInstance.logout(),
+  };
 }
