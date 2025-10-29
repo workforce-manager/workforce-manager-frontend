@@ -9,16 +9,21 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import clsx from "clsx";
 import { Users } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Separator } from "../ui/separator";
 import styles from "./AppSidebar.module.css";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { ADMIN_EXTRA_ITEMS, ADMIN_MAIN_ITEMS, EXTRA_ITEMS, MAIN_ITEMS } from "./menu/menu.data";
 
 export function AppSidebar() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+
+  const pathname = useRouterState({ 
+    select: (state) => state.location.pathname,
+  });
 
   const handleLogout = () => {
     logout();
@@ -43,7 +48,12 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {(user?.role === "ADMIN" ? ADMIN_MAIN_ITEMS : MAIN_ITEMS).map((item) => (
-                <SidebarMenuItem key={item.title} className={styles.menuItem}>
+                <SidebarMenuItem
+                  key={item.title}
+                  className={clsx(styles.menuItem, {
+                    [styles.active]: item.url === pathname
+                  })}
+                >
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
                       <span className="w-6 h-6">
