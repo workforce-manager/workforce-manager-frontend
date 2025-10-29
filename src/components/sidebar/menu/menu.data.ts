@@ -8,9 +8,9 @@ import {
   LucideIcon
 } from "lucide-react";
 
-export interface IMenuItem {
+interface IMenuItem {
   icon: LucideIcon,
-  url: string,
+  url?: string,
   title: string,
   isLogout?: boolean,
 }
@@ -62,7 +62,6 @@ export const ADMIN_MAIN_ITEMS: IMenuItem[] = [
 export const ADMIN_EXTRA_ITEMS: IMenuItem[] = [
   { 
     icon: LogOut,
-    url: "#",
     title: "Logout", 
     isLogout: true,
   },

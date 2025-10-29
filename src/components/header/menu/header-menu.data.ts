@@ -1,4 +1,4 @@
-export interface IMenuItem {
+interface IMenuItem {
   label: string;
   isLogout: boolean;
   isLogin: boolean;
