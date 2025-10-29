@@ -1,9 +1,14 @@
+import { useAuth } from "@/hooks/useAuth";
 import { Header } from "@/components/header/Header";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
-import { createRootRoute, Outlet, useRouterState } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet, useRouterState } from "@tanstack/react-router";
 
-export const Route = createRootRoute({
+interface RouterContext {
+  auth: ReturnType<typeof useAuth>;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => {
     const pathname = useRouterState({ 
       select: (state) => state.location.pathname,
@@ -19,7 +24,9 @@ export const Route = createRootRoute({
           <div className="min-h-0 flex-1 flex flex-col">
             <Header />
             <main className="flex-1 flex justify-center p-4 overflow-auto">
-              <Outlet />
+              <div className="pb-6">
+                <Outlet />
+              </div>
             </main>
           </div>
         </div>

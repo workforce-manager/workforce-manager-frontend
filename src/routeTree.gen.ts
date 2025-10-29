@@ -13,9 +13,11 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as FeaturesImport } from './routes/features'
 import { Route as AuthRouteImport } from './routes/auth/route'
+import { Route as AdminRouteImport } from './routes/admin/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthRegisterImport } from './routes/auth/register'
 import { Route as AuthLoginImport } from './routes/auth/login'
+import { Route as AdminDashboardImport } from './routes/admin/dashboard'
 
 // Create/Update Routes
 
@@ -28,6 +30,12 @@ const FeaturesRoute = FeaturesImport.update({
 const AuthRouteRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminRouteRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -49,6 +57,12 @@ const AuthLoginRoute = AuthLoginImport.update({
   getParentRoute: () => AuthRouteRoute,
 } as any)
 
+const AdminDashboardRoute = AdminDashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -58,6 +72,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRoute
     }
     '/auth': {
@@ -73,6 +94,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/features'
       preLoaderRoute: typeof FeaturesImport
       parentRoute: typeof rootRoute
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardImport
+      parentRoute: typeof AdminRouteImport
     }
     '/auth/login': {
       id: '/auth/login'
@@ -93,6 +121,18 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
+interface AdminRouteRouteChildren {
+  AdminDashboardRoute: typeof AdminDashboardRoute
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminDashboardRoute: AdminDashboardRoute,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
 interface AuthRouteRouteChildren {
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
@@ -109,16 +149,20 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/features': typeof FeaturesRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/features': typeof FeaturesRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
 }
@@ -126,22 +170,40 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/features': typeof FeaturesRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/features' | '/auth/login' | '/auth/register'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/features'
+    | '/admin/dashboard'
+    | '/auth/login'
+    | '/auth/register'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/features' | '/auth/login' | '/auth/register'
+  to:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/features'
+    | '/admin/dashboard'
+    | '/auth/login'
+    | '/auth/register'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/auth'
     | '/features'
+    | '/admin/dashboard'
     | '/auth/login'
     | '/auth/register'
   fileRoutesById: FileRoutesById
@@ -149,12 +211,14 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   FeaturesRoute: typeof FeaturesRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   FeaturesRoute: FeaturesRoute,
 }
@@ -170,12 +234,19 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/admin",
         "/auth",
         "/features"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/admin": {
+      "filePath": "admin/route.tsx",
+      "children": [
+        "/admin/dashboard"
+      ]
     },
     "/auth": {
       "filePath": "auth/route.tsx",
@@ -186,6 +257,10 @@ export const routeTree = rootRoute
     },
     "/features": {
       "filePath": "features.tsx"
+    },
+    "/admin/dashboard": {
+      "filePath": "admin/dashboard.tsx",
+      "parent": "/admin"
     },
     "/auth/login": {
       "filePath": "auth/login.tsx",

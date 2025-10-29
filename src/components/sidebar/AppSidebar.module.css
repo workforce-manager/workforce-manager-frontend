@@ -111,5 +111,5 @@
 
 .menuItem.active [data-slot="sidebar-menu-button"] {
   color: inherit;
-  background-color: inherit;
+  background-color: transparent;
 }
