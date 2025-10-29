@@ -17,6 +17,7 @@ import { Route as AdminRouteImport } from './routes/admin/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthRegisterImport } from './routes/auth/register'
 import { Route as AuthLoginImport } from './routes/auth/login'
+import { Route as AdminEmployeeManagementImport } from './routes/admin/employee-management'
 import { Route as AdminDashboardImport } from './routes/admin/dashboard'
 
 // Create/Update Routes
@@ -55,6 +56,12 @@ const AuthLoginRoute = AuthLoginImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => AuthRouteRoute,
+} as any)
+
+const AdminEmployeeManagementRoute = AdminEmployeeManagementImport.update({
+  id: '/employee-management',
+  path: '/employee-management',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 
 const AdminDashboardRoute = AdminDashboardImport.update({
@@ -102,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDashboardImport
       parentRoute: typeof AdminRouteImport
     }
+    '/admin/employee-management': {
+      id: '/admin/employee-management'
+      path: '/employee-management'
+      fullPath: '/admin/employee-management'
+      preLoaderRoute: typeof AdminEmployeeManagementImport
+      parentRoute: typeof AdminRouteImport
+    }
     '/auth/login': {
       id: '/auth/login'
       path: '/login'
@@ -123,10 +137,12 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteRouteChildren {
   AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminEmployeeManagementRoute: typeof AdminEmployeeManagementRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminDashboardRoute: AdminDashboardRoute,
+  AdminEmployeeManagementRoute: AdminEmployeeManagementRoute,
 }
 
 const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
@@ -153,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteRouteWithChildren
   '/features': typeof FeaturesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/employee-management': typeof AdminEmployeeManagementRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
 }
@@ -163,6 +180,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRouteRouteWithChildren
   '/features': typeof FeaturesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/employee-management': typeof AdminEmployeeManagementRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
 }
@@ -174,6 +192,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRouteRouteWithChildren
   '/features': typeof FeaturesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/employee-management': typeof AdminEmployeeManagementRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
 }
@@ -186,6 +205,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/features'
     | '/admin/dashboard'
+    | '/admin/employee-management'
     | '/auth/login'
     | '/auth/register'
   fileRoutesByTo: FileRoutesByTo
@@ -195,6 +215,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/features'
     | '/admin/dashboard'
+    | '/admin/employee-management'
     | '/auth/login'
     | '/auth/register'
   id:
@@ -204,6 +225,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/features'
     | '/admin/dashboard'
+    | '/admin/employee-management'
     | '/auth/login'
     | '/auth/register'
   fileRoutesById: FileRoutesById
@@ -245,7 +267,8 @@ export const routeTree = rootRoute
     "/admin": {
       "filePath": "admin/route.tsx",
       "children": [
-        "/admin/dashboard"
+        "/admin/dashboard",
+        "/admin/employee-management"
       ]
     },
     "/auth": {
@@ -260,6 +283,10 @@ export const routeTree = rootRoute
     },
     "/admin/dashboard": {
       "filePath": "admin/dashboard.tsx",
+      "parent": "/admin"
+    },
+    "/admin/employee-management": {
+      "filePath": "admin/employee-management.tsx",
       "parent": "/admin"
     },
     "/auth/login": {
