@@ -1,11 +1,12 @@
-import { 
+import {
   Home,
-  Star,
-  Phone,
   LayoutDashboard,
   LogIn,
   LogOut,
-  LucideIcon
+  LucideIcon,
+  Phone,
+  Star,
+  Users
 } from "lucide-react";
 
 interface IMenuItem {
@@ -47,12 +48,17 @@ export const ADMIN_MAIN_ITEMS: IMenuItem[] = [
     url: "/admin/dashboard",
     title: "Dashboard",
   },
-  { 
+  {
+    icon: Users,
+    url: "/admin/employee-management",
+    title: "Employees",
+  },
+  {
     icon: Star,
     url: "/features",
     title: "Features", 
   },
-  { 
+  {
     icon: Phone,
     url: "/contact",
     title: "Contact", 
