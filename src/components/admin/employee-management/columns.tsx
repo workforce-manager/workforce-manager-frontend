@@ -15,12 +15,6 @@ type Employee = {
   phone: string;
 };
 
-export const sampleData: Employee[] = Array.from({ length: 6 }).map(() => ({
-  name: "Jane Cooper",
-  email: "jane.cooper@example.com",
-  phone: "+1 (555) 123-4567",
-}));
-
 interface MenuItem {
   label: string;
   variant: "default" | "destructive" | undefined;

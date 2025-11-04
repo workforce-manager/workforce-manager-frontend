@@ -23,21 +23,33 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
+import { columns } from "./columns";
 import { ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { columns, sampleData } from "./columns";
+import { useQuery } from "@tanstack/react-query";
 import styles from "./EmployeeManagement.module.css";
+import { getAllEmployees, GET_ALL_EMPLOYEES } from "@/api/employees";
 
 export function EmployeeManagement() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
+  const {
+    data: employees,
+    error: employeesError,
+    isError: isEmployeesError,
+  } = useQuery({
+    queryKey: [GET_ALL_EMPLOYEES],
+    queryFn: () => getAllEmployees(),
+  });
+
   const table = useReactTable({
     columns,
-    data: sampleData,
+    data: employees ?? [],
     state: { columnVisibility, globalFilter, sorting },
+    initialState: { pagination: { pageIndex: 0, pageSize: 6 } },
     onColumnVisibilityChange: setColumnVisibility,
     onGlobalFilterChange: setGlobalFilter,
     onSortingChange: setSorting,
@@ -113,7 +125,16 @@ export function EmployeeManagement() {
               ))}
             </TableHeader>
             <TableBody>
-              {table.getRowModel().rows?.length ? (
+              {isEmployeesError ? (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    {employeesError instanceof Error ? employeesError.message : "Error"}
+                  </TableCell>
+                </TableRow>
+              ) : table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
