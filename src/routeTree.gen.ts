@@ -12,9 +12,11 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as FeaturesImport } from './routes/features'
+import { Route as EmployeeRouteImport } from './routes/employee/route'
 import { Route as AuthRouteImport } from './routes/auth/route'
 import { Route as AdminRouteImport } from './routes/admin/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as EmployeeProfileImport } from './routes/employee/profile'
 import { Route as AuthRegisterImport } from './routes/auth/register'
 import { Route as AuthLoginImport } from './routes/auth/login'
 import { Route as AdminDashboardImport } from './routes/admin/dashboard'
@@ -24,6 +26,12 @@ import { Route as AdminDashboardImport } from './routes/admin/dashboard'
 const FeaturesRoute = FeaturesImport.update({
   id: '/features',
   path: '/features',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EmployeeRouteRoute = EmployeeRouteImport.update({
+  id: '/employee',
+  path: '/employee',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -43,6 +51,12 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const EmployeeProfileRoute = EmployeeProfileImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => EmployeeRouteRoute,
 } as any)
 
 const AuthRegisterRoute = AuthRegisterImport.update({
@@ -88,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRoute
     }
+    '/employee': {
+      id: '/employee'
+      path: '/employee'
+      fullPath: '/employee'
+      preLoaderRoute: typeof EmployeeRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/features': {
       id: '/features'
       path: '/features'
@@ -115,6 +136,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth/register'
       preLoaderRoute: typeof AuthRegisterImport
       parentRoute: typeof AuthRouteImport
+    }
+    '/employee/profile': {
+      id: '/employee/profile'
+      path: '/profile'
+      fullPath: '/employee/profile'
+      preLoaderRoute: typeof EmployeeProfileImport
+      parentRoute: typeof EmployeeRouteImport
     }
   }
 }
@@ -147,24 +175,40 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
   AuthRouteRouteChildren,
 )
 
+interface EmployeeRouteRouteChildren {
+  EmployeeProfileRoute: typeof EmployeeProfileRoute
+}
+
+const EmployeeRouteRouteChildren: EmployeeRouteRouteChildren = {
+  EmployeeProfileRoute: EmployeeProfileRoute,
+}
+
+const EmployeeRouteRouteWithChildren = EmployeeRouteRoute._addFileChildren(
+  EmployeeRouteRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
+  '/employee': typeof EmployeeRouteRouteWithChildren
   '/features': typeof FeaturesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/employee/profile': typeof EmployeeProfileRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
+  '/employee': typeof EmployeeRouteRouteWithChildren
   '/features': typeof FeaturesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/employee/profile': typeof EmployeeProfileRoute
 }
 
 export interface FileRoutesById {
@@ -172,10 +216,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
+  '/employee': typeof EmployeeRouteRouteWithChildren
   '/features': typeof FeaturesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/employee/profile': typeof EmployeeProfileRoute
 }
 
 export interface FileRouteTypes {
@@ -184,28 +230,34 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
+    | '/employee'
     | '/features'
     | '/admin/dashboard'
     | '/auth/login'
     | '/auth/register'
+    | '/employee/profile'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
     | '/auth'
+    | '/employee'
     | '/features'
     | '/admin/dashboard'
     | '/auth/login'
     | '/auth/register'
+    | '/employee/profile'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/auth'
+    | '/employee'
     | '/features'
     | '/admin/dashboard'
     | '/auth/login'
     | '/auth/register'
+    | '/employee/profile'
   fileRoutesById: FileRoutesById
 }
 
@@ -213,6 +265,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
+  EmployeeRouteRoute: typeof EmployeeRouteRouteWithChildren
   FeaturesRoute: typeof FeaturesRoute
 }
 
@@ -220,6 +273,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRouteRoute: AdminRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
+  EmployeeRouteRoute: EmployeeRouteRouteWithChildren,
   FeaturesRoute: FeaturesRoute,
 }
 
@@ -236,6 +290,7 @@ export const routeTree = rootRoute
         "/",
         "/admin",
         "/auth",
+        "/employee",
         "/features"
       ]
     },
@@ -255,6 +310,12 @@ export const routeTree = rootRoute
         "/auth/register"
       ]
     },
+    "/employee": {
+      "filePath": "employee/route.tsx",
+      "children": [
+        "/employee/profile"
+      ]
+    },
     "/features": {
       "filePath": "features.tsx"
     },
@@ -269,6 +330,10 @@ export const routeTree = rootRoute
     "/auth/register": {
       "filePath": "auth/register.tsx",
       "parent": "/auth"
+    },
+    "/employee/profile": {
+      "filePath": "employee/profile.tsx",
+      "parent": "/employee"
     }
   }
 }
