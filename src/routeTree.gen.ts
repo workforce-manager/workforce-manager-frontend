@@ -16,6 +16,7 @@ import { Route as EmployeeRouteImport } from './routes/employee/route'
 import { Route as AuthRouteImport } from './routes/auth/route'
 import { Route as AdminRouteImport } from './routes/admin/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as EmployeeTasksImport } from './routes/employee/tasks'
 import { Route as EmployeeProfileImport } from './routes/employee/profile'
 import { Route as AuthRegisterImport } from './routes/auth/register'
 import { Route as AuthLoginImport } from './routes/auth/login'
@@ -51,6 +52,12 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const EmployeeTasksRoute = EmployeeTasksImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => EmployeeRouteRoute,
 } as any)
 
 const EmployeeProfileRoute = EmployeeProfileImport.update({
@@ -144,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmployeeProfileImport
       parentRoute: typeof EmployeeRouteImport
     }
+    '/employee/tasks': {
+      id: '/employee/tasks'
+      path: '/tasks'
+      fullPath: '/employee/tasks'
+      preLoaderRoute: typeof EmployeeTasksImport
+      parentRoute: typeof EmployeeRouteImport
+    }
   }
 }
 
@@ -177,10 +191,12 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 
 interface EmployeeRouteRouteChildren {
   EmployeeProfileRoute: typeof EmployeeProfileRoute
+  EmployeeTasksRoute: typeof EmployeeTasksRoute
 }
 
 const EmployeeRouteRouteChildren: EmployeeRouteRouteChildren = {
   EmployeeProfileRoute: EmployeeProfileRoute,
+  EmployeeTasksRoute: EmployeeTasksRoute,
 }
 
 const EmployeeRouteRouteWithChildren = EmployeeRouteRoute._addFileChildren(
@@ -197,6 +213,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/employee/profile': typeof EmployeeProfileRoute
+  '/employee/tasks': typeof EmployeeTasksRoute
 }
 
 export interface FileRoutesByTo {
@@ -209,6 +226,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/employee/profile': typeof EmployeeProfileRoute
+  '/employee/tasks': typeof EmployeeTasksRoute
 }
 
 export interface FileRoutesById {
@@ -222,6 +240,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/employee/profile': typeof EmployeeProfileRoute
+  '/employee/tasks': typeof EmployeeTasksRoute
 }
 
 export interface FileRouteTypes {
@@ -236,6 +255,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/employee/profile'
+    | '/employee/tasks'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -247,6 +267,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/employee/profile'
+    | '/employee/tasks'
   id:
     | '__root__'
     | '/'
@@ -258,6 +279,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/employee/profile'
+    | '/employee/tasks'
   fileRoutesById: FileRoutesById
 }
 
@@ -313,7 +335,8 @@ export const routeTree = rootRoute
     "/employee": {
       "filePath": "employee/route.tsx",
       "children": [
-        "/employee/profile"
+        "/employee/profile",
+        "/employee/tasks"
       ]
     },
     "/features": {
@@ -333,6 +356,10 @@ export const routeTree = rootRoute
     },
     "/employee/profile": {
       "filePath": "employee/profile.tsx",
+      "parent": "/employee"
+    },
+    "/employee/tasks": {
+      "filePath": "employee/tasks.tsx",
       "parent": "/employee"
     }
   }
