@@ -14,8 +14,8 @@ import { Users } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Separator } from "../ui/separator";
 import styles from "./AppSidebar.module.css";
+import { MENU_ITEMS_BY_ROLE } from "./menu/menu.data";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
-import { ADMIN_EXTRA_ITEMS, ADMIN_MAIN_ITEMS, EXTRA_ITEMS, MAIN_ITEMS } from "./menu/menu.data";
 
 export function AppSidebar() {
   const navigate = useNavigate();
@@ -29,6 +29,11 @@ export function AppSidebar() {
     logout();
     navigate({ to: "/", replace: true });
   };
+
+  const role = user?.role || "default";
+  const menuItems = MENU_ITEMS_BY_ROLE[role as keyof typeof MENU_ITEMS_BY_ROLE]
+    || MENU_ITEMS_BY_ROLE.default;
+  const { main: mainItems, extra: extraItems } = menuItems;
 
   return (
     <Sidebar collapsible="icon" className={styles.sidebar}>
@@ -47,7 +52,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {(user?.role === "ADMIN" ? ADMIN_MAIN_ITEMS : MAIN_ITEMS).map((item) => (
+              {mainItems.map((item) => (
                 <SidebarMenuItem
                   key={item.title}
                   className={clsx(styles.menuItem, {
@@ -73,7 +78,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {(user?.role === "ADMIN" ? ADMIN_EXTRA_ITEMS : EXTRA_ITEMS).map((item) => (
+              {extraItems.map((item) => (
                 <SidebarMenuItem key={item.title} className={styles.menuItem}>
                   <SidebarMenuButton onClick={item.isLogout ? handleLogout : undefined} asChild>
                     <a href={item.url}>

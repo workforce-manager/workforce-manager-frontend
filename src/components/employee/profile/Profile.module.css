@@ -1,0 +1,370 @@
+.container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  gap: 1.5rem;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.summaryCard {
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #4A4458;
+  background-color: #4A4458;
+}
+
+.summaryLayout {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.summaryColumn {
+  display: flex;
+  align-items: center;
+}
+
+.summaryColumn:first-child {
+  flex-shrink: 0;
+}
+
+.summaryColumn:nth-child(2) {
+  flex: 1;
+}
+
+.summaryAvatar {
+  width: 180px;
+  height: 180px;
+  flex-shrink: 0;
+  border: 3px solid #B5A7F0;
+}
+
+.summaryInfo {
+  display: flex;
+  gap: 1.25rem;
+  flex-direction: column;
+}
+
+.userName {
+  color: #FFF;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.summaryProgress {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+
+.progressHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.summaryLabel {
+  color: #E0E0E0;
+  font-size: 0.95rem;
+}
+
+.summaryValue {
+  color: #B5A7F0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.progressBar {
+  width: 100%;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: rgba(181, 167, 240, 0.2);
+}
+
+.progressBar [data-slot="progress-indicator"] {
+  background-color: #B5A7F0;
+}
+
+.summaryActivity {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.statusDot {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: #10B981;
+}
+
+.summaryText {
+  color: #E0E0E0;
+  font-size: 0.95rem;
+}
+
+.personalCard {
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #4A4458;
+  background-color: #4A4458;
+}
+
+.personalHeader {
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  color: #B5A7F0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.personalContent {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoList {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.infoItem {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 1.25rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  background: rgba(44, 38, 56, 0.6);
+  border: 1px solid rgba(181, 167, 240, 0.2);
+}
+
+.infoItem:hover {
+  border-color: rgba(181, 167, 240, 0.4);
+  background: rgba(44, 38, 56, 0.8);
+  box-shadow: 0 20px 40px rgba(181, 167, 240, 0.15);
+}
+
+.infoIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #B5A7F0;
+}
+
+.infoContent {
+  display: flex;
+  flex: 1;
+  gap: 0.25rem;
+  flex-direction: column;
+}
+
+.infoLabel {
+  margin: 0;
+  color: #B5A7F0;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.infoValue {
+  margin: 0;
+  color: #FFF;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.supportCard {
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #4A4458;
+  background-color: #4A4458;
+  display: flex;
+  gap: 1.25rem;
+  flex-direction: column;
+}
+
+.supportHeader {
+  margin: 0;
+  padding: 0;
+  color: #B5A7F0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.supportContent {
+  padding: 0;
+}
+
+.contactList {
+  display: flex;
+  gap: 1.25rem;
+  flex-direction: column;
+}
+
+.contactItem {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.25rem;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  background: rgba(44, 38, 56, 0.6);
+  border: 1px solid rgba(181, 167, 240, 0.2);
+}
+
+.contactItem:hover {
+  border-color: rgba(181, 167, 240, 0.4);
+  background: rgba(44, 38, 56, 0.85);
+  box-shadow: 0 18px 36px rgba(52, 44, 71, 0.45);
+}
+
+.contactIcon {
+  width: 48px;
+  height: 48px;
+  color: #B5A7F0;
+  border-radius: 12px;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(181, 167, 240, 0.25), rgba(110, 88, 200, 0.35));
+}
+
+.contactAvatar {
+  width: 28px;
+  height: 28px;
+}
+
+.contactInfo {
+  display: flex;
+  flex: 1;
+  gap: 0.6rem;
+  flex-direction: column;
+}
+
+.contactName {
+  margin: 0;
+  color: #FFF;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.contactLinks {
+  color: #E0E0E0;
+  font-size: 0.95rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.contactRole {
+  color: #B5A7F0;
+  font-weight: 500;
+}
+
+.separatorDot {
+  color: rgba(224, 224, 224, 0.5);
+  font-size: 0.85rem;
+}
+
+.contactLink {
+  color: inherit;
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.contactLinkIcon {
+  width: 1rem;
+  height: 1rem;
+  color: #B5A7F0;
+}
+
+@media (max-width: 1024px) {
+  .summaryAvatar {
+    width: 140px;
+    height: 140px;
+  }
+
+  .summaryLayout { 
+    gap: 2rem;
+  }
+
+  .infoList {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    gap: 1rem;
+  }
+
+  .summaryLayout {
+    gap: 1.5rem;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .summaryColumn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .summaryColumn:nth-child(2) {
+    text-align: center;
+  }
+
+  .summaryInfo {
+    text-align: center;
+    align-items: center;
+  }
+
+  .progressHeader {
+    width: 100%;
+  }
+
+  .summaryActivity {
+    justify-content: center;
+  }
+
+  .userName {
+    font-size: 1.5rem;
+  }
+
+  .infoItem {
+    padding: 1rem;
+  }
+
+  .contactItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .contactLinks {
+    gap: 0.4rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .separatorDot {
+    display: none;
+  }
+}

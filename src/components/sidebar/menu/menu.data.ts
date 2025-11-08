@@ -1,4 +1,5 @@
-import { 
+import {
+  CircleUserRound,
   Home,
   Star,
   Phone,
@@ -66,3 +67,44 @@ export const ADMIN_EXTRA_ITEMS: IMenuItem[] = [
     isLogout: true,
   },
 ];
+
+export const EMPLOYEE_MAIN_ITEMS: IMenuItem[] = [
+  {
+    icon: CircleUserRound,
+    url: "/employee/profile",
+    title: "Profile",
+  },
+  { 
+    icon: Star,
+    url: "/features",
+    title: "Features", 
+  },
+  { 
+    icon: Phone,
+    url: "/contact",
+    title: "Contact", 
+  },
+];
+
+export const EMPLOYEE_EXTRA_ITEMS: IMenuItem[] = [
+  { 
+    icon: LogOut,
+    title: "Logout", 
+    isLogout: true,
+  },
+];
+
+export const MENU_ITEMS_BY_ROLE = {
+  ADMIN: {
+    main: ADMIN_MAIN_ITEMS,
+    extra: ADMIN_EXTRA_ITEMS,
+  },
+  EMPLOYEE: {
+    main: EMPLOYEE_MAIN_ITEMS,
+    extra: EMPLOYEE_EXTRA_ITEMS,
+  },
+  default: {
+    main: MAIN_ITEMS,
+    extra: EXTRA_ITEMS,
+  },
+} as const;
