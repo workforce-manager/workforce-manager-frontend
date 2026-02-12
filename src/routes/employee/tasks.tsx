@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Tasks } from "@/components/employee/tasks/Tasks";
+import { TasksKanban } from "@/components/employee/tasks-kanban/TasksKanban";
 
 export const Route = createFileRoute("/employee/tasks")({
   component: EmployeeTasks,
 });
 
 function EmployeeTasks() {
-  return <Tasks />;
+  return <TasksKanban />;
 }
