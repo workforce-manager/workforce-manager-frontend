@@ -39,6 +39,11 @@ export function TasksKanban() {
 
     const sourceColumnId = draggedTask.status;
 
+    if (sourceColumnId === targetColumnId) {
+      setDraggedTaskId(null);
+      return;
+    }
+
     setColumns((prevColumns) =>
       prevColumns.map((column) => {
         if (column.id === sourceColumnId) {
