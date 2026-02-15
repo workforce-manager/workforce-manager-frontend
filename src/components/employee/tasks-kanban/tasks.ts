@@ -27,7 +27,7 @@ export const TASKS_DATA: ITask[] = [
     id: "task-4",
     title: "Review onboarding checklist",
     description: "Verify the onboarding checklist for completeness and accuracy.",
-    status: EnumStatus.REVIEW,
+    status: EnumStatus.IN_REVIEW,
     dueDate: "11 February 2026",
   },
   {

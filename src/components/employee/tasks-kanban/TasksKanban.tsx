@@ -6,12 +6,18 @@ import {
 } from "@/components/ui/card";
 import { useState } from "react";
 import { TASKS_DATA } from "./tasks";
-import { ITask } from "./kanban.types";
+import { IColumn } from "./kanban.types";
 import { KANBAN_DATA } from "./kanban.data";
 import { EnumStatus } from "@/shared/types/tasks.type";
 
 export function TasksKanban() {
-  const [tasks, setTasks] = useState<ITask[]>(TASKS_DATA);
+  const [columns, setColumns] = useState<IColumn[]>(() => {
+    return KANBAN_DATA.map((column) => ({
+      ...column,
+      items: TASKS_DATA.filter((task) => task.status === column.id),
+    }));
+  });
+
   const [draggedTaskId, setDraggedTaskId] = useState<string | null>(null);
 
   function handleDragStart(taskId: string) {
@@ -22,15 +28,35 @@ export function TasksKanban() {
     event.preventDefault();
   }
 
-  function handleDrop(columnId: EnumStatus) {
+  function handleDrop(targetColumnId: EnumStatus) {
     if (!draggedTaskId) return;
 
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === draggedTaskId
-          ? { ...task, status: columnId }
-          : task
-      )
+    const draggedTask = columns
+      .flatMap((column) => column.items)
+      .find((task) => task.id === draggedTaskId);
+
+    if (!draggedTask) return;
+
+    const sourceColumnId = draggedTask.status;
+
+    setColumns((prevColumns) =>
+      prevColumns.map((column) => {
+        if (column.id === sourceColumnId) {
+          return {
+            ...column,
+            items: column.items.filter((task) => task.id !== draggedTaskId),
+          };
+        }
+
+        if (column.id === targetColumnId) {
+          return {
+            ...column,
+            items: [...column.items, { ...draggedTask, status: targetColumnId }],
+          };
+        }
+
+        return column;
+      })
     );
 
     setDraggedTaskId(null);
@@ -42,10 +68,10 @@ export function TasksKanban() {
         Task Assignments
       </h1>
       <div className="grid grid-cols-4 justify-items-center gap-16 flex-1">
-        {KANBAN_DATA.map((column) => (
+        {columns.map((column) => (
           <div
             key={column.id}
-            className="max-w-64"
+            className="w-64"
             onDragOver={handleDragOver}
             onDrop={() => handleDrop(column.id)}
           >
@@ -53,7 +79,7 @@ export function TasksKanban() {
               {column.name}
             </div>
             <div>
-              {tasks.filter((task) => task.status === column.id).map((task) => (
+              {column.items.map((task) => (
                 <Card
                   key={task.id}
                   draggable="true"

@@ -13,7 +13,7 @@ export const KANBAN_DATA: IColumn[] = [
     items: [],
   },
   {
-    id: EnumStatus.REVIEW,
+    id: EnumStatus.IN_REVIEW,
     name: "In Review",
     items: [],
   },
