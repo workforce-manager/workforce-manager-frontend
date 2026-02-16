@@ -9,6 +9,7 @@ import { TASKS_DATA } from "./tasks";
 import { IColumn } from "./kanban.types";
 import { KANBAN_DATA } from "./kanban.data";
 import { EnumStatus } from "@/shared/types/tasks.type";
+import { generateColumnStyle } from "./generate-gradient";
 
 export function TasksKanban() {
   const [columns, setColumns] = useState<IColumn[]>(() => {
@@ -73,14 +74,17 @@ export function TasksKanban() {
         Task Assignments
       </h1>
       <div className="grid grid-cols-4 justify-items-center gap-16 flex-1">
-        {columns.map((column) => (
+        {columns.map((column, index) => (
           <div
             key={column.id}
             className="w-64"
             onDragOver={handleDragOver}
             onDrop={() => handleDrop(column.id)}
           >
-            <div className="rounded bg-slate-700 py-1 px-5 text-center text-lg mb-4">
+            <div
+              style={generateColumnStyle(index, columns.length)}
+              className="rounded py-1 px-5 text-center text-lg mb-5 font-medium"
+            >
               {column.name}
             </div>
             <div>
