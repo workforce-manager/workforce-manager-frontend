@@ -83,7 +83,7 @@ export function TasksKanban() {
           >
             <div
               style={generateColumnStyle(index, columns.length)}
-              className="rounded py-1 px-5 text-center text-lg mb-5 font-medium"
+              className="rounded py-1 px-5 text-center text-lg mb-5"
             >
               {column.name}
             </div>
