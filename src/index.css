@@ -5,16 +5,15 @@
 
 html, body, #root {
   height: 100%;
+  font-family: "Lato", sans-serif !important;
 }
 
 main {
   color: #FFF;
-  /* background: linear-gradient(135deg, #2C2638 0%, #3C364C 100%); */
   background-color: #3C364C;
 }
 
 * {
-  margin: 0;
   box-sizing: border-box;
 }
 
