@@ -1,6 +1,7 @@
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
@@ -8,20 +9,23 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
-import clsx from "clsx";
+import { cn } from "@/lib/utils";
 import { Users } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Separator } from "../ui/separator";
 import styles from "./AppSidebar.module.css";
 import { MENU_ITEMS_BY_ROLE } from "./menu/menu.data";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 
 export function AppSidebar() {
+  const { state } = useSidebar();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
-  const pathname = useRouterState({ 
+  const pathname = useRouterState({
     select: (state) => state.location.pathname,
   });
 
@@ -55,7 +59,7 @@ export function AppSidebar() {
               {mainItems.map((item) => (
                 <SidebarMenuItem
                   key={item.title}
-                  className={clsx(styles.menuItem, {
+                  className={cn(styles.menuItem, {
                     [styles.active]: item.url === pathname
                   })}
                 >
@@ -79,7 +83,12 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {extraItems.map((item) => (
-                <SidebarMenuItem key={item.title} className={styles.menuItem}>
+                <SidebarMenuItem
+                  key={item.title}
+                  className={cn(styles.menuItem, {
+                    [styles.logout]: item.isLogout,
+                  })}
+                >
                   <SidebarMenuButton onClick={item.isLogout ? handleLogout : undefined} asChild>
                     <a href={item.url}>
                       <span className="w-6 h-6">
@@ -94,6 +103,36 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
+      <Separator className="bg-[#2C2638]" />
+
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem className={styles.footerMenuItem}>
+            <SidebarMenuButton className="gap-3">
+              <Avatar
+                className={cn(
+                  "transition-all",
+                  state === "collapsed" ? "h-6 w-6" : "h-8 w-8"
+                )}
+              >
+                <AvatarImage src="https://github.com/shadcn.png" alt={user?.name} />
+                <AvatarFallback>
+                  {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                </AvatarFallback>
+              </Avatar>
+              <div className="grid flex-1 text-left leading-tight">
+                <span className="truncate font-bold">
+                  New User
+                </span>
+                <span className="truncate">
+                  newuser@example.com
+                </span>
+              </div>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
 
       <SidebarRail />
     </Sidebar>

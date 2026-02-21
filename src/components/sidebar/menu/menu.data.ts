@@ -1,4 +1,5 @@
 import {
+  CheckCheck,
   CircleUserRound,
   Home,
   Star,
@@ -74,15 +75,20 @@ export const EMPLOYEE_MAIN_ITEMS: IMenuItem[] = [
     url: "/employee/profile",
     title: "Profile",
   },
-  { 
+  {
     icon: Star,
     url: "/features",
-    title: "Features", 
+    title: "Features",
   },
-  { 
+  {
+    icon: CheckCheck,
+    url: "/employee/tasks",
+    title: "Tasks",
+  },
+  {
     icon: Phone,
     url: "/contact",
-    title: "Contact", 
+    title: "Contact",
   },
 ];
 
