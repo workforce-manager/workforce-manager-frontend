@@ -63,7 +63,7 @@ export function AppSidebar() {
                     [styles.active]: item.url === pathname
                   })}
                 >
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton className="ml-[3px]" asChild>
                     <a href={item.url}>
                       <span className="w-6 h-6">
                         <item.icon />
@@ -89,7 +89,11 @@ export function AppSidebar() {
                     [styles.logout]: item.isLogout,
                   })}
                 >
-                  <SidebarMenuButton onClick={item.isLogout ? handleLogout : undefined} asChild>
+                  <SidebarMenuButton
+                    onClick={item.isLogout ? handleLogout : undefined}
+                    className="ml-[3px]"
+                    asChild
+                  >
                     <a href={item.url}>
                       <span className="w-6 h-6">
                         <item.icon />
@@ -109,7 +113,7 @@ export function AppSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem className={styles.footerMenuItem}>
-            <SidebarMenuButton className="gap-3">
+            <SidebarMenuButton className="gap-3 ml-[3px]">
               <Avatar
                 className={cn(
                   "transition-all",
