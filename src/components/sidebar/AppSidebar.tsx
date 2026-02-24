@@ -100,7 +100,7 @@ export function AppSidebar() {
                 >
                   <SidebarMenuButton
                     onClick={item.isLogout ? handleLogout : undefined}
-                    className="ml-[3px]"
+                    className="ml-[3px] cursor-pointer"
                     asChild
                   >
                     <a href={item.url}>
@@ -145,7 +145,7 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarFooter>
 
-      <SidebarRail />
+      <SidebarRail className={state === "expanded" ? "sm:hidden" : ""} />
     </Sidebar>
   );
 }
