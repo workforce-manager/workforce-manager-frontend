@@ -9,11 +9,22 @@
 }
 
 .sidebarHeader {
-  min-height: 4rem;
-  padding: 1.25rem 1rem;
+  min-height: 5rem;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.toggleButton {
+  padding: 0;
+  position: absolute;
+  top: 20px;
+  right: 16px;
+  color: #FFF;
+  cursor: pointer;
+  border: none;
+  background: none;
 }
 
 .collapsedIcon {

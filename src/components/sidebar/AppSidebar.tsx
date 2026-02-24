@@ -12,18 +12,18 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import { Users } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Separator } from "../ui/separator";
 import styles from "./AppSidebar.module.css";
+import { ArrowLeftToLine } from "lucide-react";
 import { MENU_ITEMS_BY_ROLE } from "./menu/menu.data";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { useNavigate, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 
 export function AppSidebar() {
-  const { state } = useSidebar();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { state, toggleSidebar } = useSidebar();
 
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
@@ -41,16 +41,25 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon" className={styles.sidebar}>
-      <SidebarHeader className={styles.sidebarHeader}>
-        <div className="flex items-center justify-center">
-          <Users size={32} className={`group-data-[state=expanded]:hidden ${styles.collapsedIcon}`} />
-          <span className={`group-data-[state=collapsed]:hidden ${styles.sidebarTitle}`}>
-            Workforce Manager
-          </span>
-        </div>
+      <SidebarHeader
+        className={cn(
+          styles.sidebarHeader,
+          state === "collapsed" ? "p-2" : "py-5 px-4"
+        )}
+      >
+        <Link to="/">
+          <img src="/logo.svg" alt="Logo" width={150} />
+        </Link>
+        <button
+          onClick={toggleSidebar}
+          className={cn(
+            styles.toggleButton,
+            state === "collapsed" ? "hidden" : ""
+          )}
+        >
+          <ArrowLeftToLine size={18} />
+        </button>
       </SidebarHeader>
-
-      <Separator className="bg-[#2C2638]" />
 
       <SidebarContent className="gap-0">
         <SidebarGroup>
@@ -107,8 +116,6 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-
-      <Separator className="bg-[#2C2638]" />
 
       <SidebarFooter>
         <SidebarMenu>
