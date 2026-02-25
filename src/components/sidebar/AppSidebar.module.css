@@ -27,6 +27,12 @@
   background: none;
 }
 
+@media (max-width: 767px) {
+  .toggleButton {
+    display: none;
+  }
+}
+
 .collapsedIcon {
   color: #B5A7F0;
   transition: all 0.3s ease;

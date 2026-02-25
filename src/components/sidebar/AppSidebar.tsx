@@ -119,29 +119,31 @@ export function AppSidebar() {
 
       <SidebarFooter>
         <SidebarMenu>
-          <SidebarMenuItem className={styles.footerMenuItem}>
-            <SidebarMenuButton className="gap-3 ml-[3px]">
-              <Avatar
-                className={cn(
-                  "transition-all",
-                  state === "collapsed" ? "h-6 w-6" : "h-8 w-8"
-                )}
-              >
-                <AvatarImage src="https://github.com/shadcn.png" alt={user?.name} />
-                <AvatarFallback>
-                  {user?.name?.charAt(0)?.toUpperCase() || "U"}
-                </AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left leading-tight">
-                <span className="truncate font-bold">
-                  New User
-                </span>
-                <span className="truncate">
-                  newuser@example.com
-                </span>
-              </div>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+          {user && (
+            <SidebarMenuItem className={styles.footerMenuItem}>
+              <SidebarMenuButton className="gap-3 ml-[3px]">
+                <Avatar
+                  className={cn(
+                    "transition-all",
+                    state === "collapsed" ? "h-6 w-6" : "h-8 w-8"
+                  )}
+                >
+                  <AvatarImage src="https://github.com/shadcn.png" alt={user?.name} />
+                  <AvatarFallback>
+                    {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="grid flex-1 text-left leading-tight">
+                  <span className="truncate font-bold">
+                    {user?.name}
+                  </span>
+                  <span className="truncate">
+                    {user?.email}
+                  </span>
+                </div>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
         </SidebarMenu>
       </SidebarFooter>
 
