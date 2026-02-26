@@ -18,7 +18,7 @@ import styles from "./AppSidebar.module.css";
 import { ArrowLeftToLine } from "lucide-react";
 import { MENU_ITEMS_BY_ROLE } from "./menu/menu.data";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
 
 export function AppSidebar() {
   const navigate = useNavigate();
@@ -47,9 +47,7 @@ export function AppSidebar() {
           state === "collapsed" ? "p-2" : "py-5 px-4"
         )}
       >
-        <Link to="/">
-          <img src="/logo.svg" alt="Logo" width={150} />
-        </Link>
+        <img src="/logo.svg" alt="Logo" width={150} />
         <button
           onClick={toggleSidebar}
           className={cn(
