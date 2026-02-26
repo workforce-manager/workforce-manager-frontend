@@ -1,6 +1,7 @@
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
@@ -8,20 +9,23 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
-import clsx from "clsx";
-import { Users } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import { Separator } from "../ui/separator";
 import styles from "./AppSidebar.module.css";
+import { ArrowLeftToLine } from "lucide-react";
 import { MENU_ITEMS_BY_ROLE } from "./menu/menu.data";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 
 export function AppSidebar() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { state, toggleSidebar } = useSidebar();
 
-  const pathname = useRouterState({ 
+  const pathname = useRouterState({
     select: (state) => state.location.pathname,
   });
 
@@ -37,16 +41,23 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon" className={styles.sidebar}>
-      <SidebarHeader className={styles.sidebarHeader}>
-        <div className="flex items-center justify-center">
-          <Users size={32} className={`group-data-[state=expanded]:hidden ${styles.collapsedIcon}`} />
-          <span className={`group-data-[state=collapsed]:hidden ${styles.sidebarTitle}`}>
-            Workforce Manager
-          </span>
-        </div>
+      <SidebarHeader
+        className={cn(
+          styles.sidebarHeader,
+          state === "collapsed" ? "p-2" : "py-5 px-4"
+        )}
+      >
+        <img src="/logo.svg" alt="Logo" width={150} />
+        <button
+          onClick={toggleSidebar}
+          className={cn(
+            styles.toggleButton,
+            state === "collapsed" ? "hidden" : ""
+          )}
+        >
+          <ArrowLeftToLine size={18} />
+        </button>
       </SidebarHeader>
-
-      <Separator className="bg-[#2C2638]" />
 
       <SidebarContent className="gap-0">
         <SidebarGroup>
@@ -55,11 +66,11 @@ export function AppSidebar() {
               {mainItems.map((item) => (
                 <SidebarMenuItem
                   key={item.title}
-                  className={clsx(styles.menuItem, {
+                  className={cn(styles.menuItem, {
                     [styles.active]: item.url === pathname
                   })}
                 >
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton className="ml-[3px]" asChild>
                     <a href={item.url}>
                       <span className="w-6 h-6">
                         <item.icon />
@@ -79,8 +90,17 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {extraItems.map((item) => (
-                <SidebarMenuItem key={item.title} className={styles.menuItem}>
-                  <SidebarMenuButton onClick={item.isLogout ? handleLogout : undefined} asChild>
+                <SidebarMenuItem
+                  key={item.title}
+                  className={cn(styles.menuItem, {
+                    [styles.logout]: item.isLogout,
+                  })}
+                >
+                  <SidebarMenuButton
+                    onClick={item.isLogout ? handleLogout : undefined}
+                    className="ml-[3px] cursor-pointer"
+                    asChild
+                  >
                     <a href={item.url}>
                       <span className="w-6 h-6">
                         <item.icon />
@@ -95,7 +115,37 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarRail />
+      <SidebarFooter>
+        <SidebarMenu>
+          {user && (
+            <SidebarMenuItem className={styles.footerMenuItem}>
+              <SidebarMenuButton className="gap-3 ml-[3px]">
+                <Avatar
+                  className={cn(
+                    "transition-all",
+                    state === "collapsed" ? "h-6 w-6" : "h-8 w-8"
+                  )}
+                >
+                  <AvatarImage src="https://github.com/shadcn.png" alt={user?.name} />
+                  <AvatarFallback>
+                    {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="grid flex-1 text-left leading-tight">
+                  <span className="truncate font-bold">
+                    {user?.name}
+                  </span>
+                  <span className="truncate">
+                    {user?.email}
+                  </span>
+                </div>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
+        </SidebarMenu>
+      </SidebarFooter>
+
+      <SidebarRail className={state === "expanded" ? "sm:hidden" : ""} />
     </Sidebar>
   );
 }

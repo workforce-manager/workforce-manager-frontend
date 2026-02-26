@@ -9,11 +9,28 @@
 }
 
 .sidebarHeader {
-  min-height: 4rem;
-  padding: 1.25rem 1rem;
+  min-height: 5rem;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.toggleButton {
+  padding: 0;
+  position: absolute;
+  top: 20px;
+  right: 16px;
+  color: #FFF;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+@media (max-width: 767px) {
+  .toggleButton {
+    display: none;
+  }
 }
 
 .collapsedIcon {
@@ -99,8 +116,14 @@
   background-color: rgba(181, 167, 240, 0.1);
 }
 
+.menuItem.logout:hover,
+.menuItem.logout:focus {
+  color: #F36D97;
+  background-color: rgba(243, 109, 151, 0.1);
+}
+
 .menuItem [data-slot="sidebar-menu-button"] {
-  color: #FFF;
+  color: inherit;
   background-color: transparent;
 }
 
@@ -110,6 +133,17 @@
 }
 
 .menuItem.active [data-slot="sidebar-menu-button"] {
+  color: inherit;
+  background-color: transparent;
+}
+
+.footerMenuItem {
+  color: #FFF;
+  padding: 0.5rem 0;
+  margin: 0.125rem 0;
+}
+
+.footerMenuItem:hover [data-slot="sidebar-menu-button"] {
   color: inherit;
   background-color: transparent;
 }

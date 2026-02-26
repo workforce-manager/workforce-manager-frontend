@@ -93,10 +93,17 @@ export function TasksKanban() {
                   key={task.id}
                   draggable="true"
                   onDragStart={() => handleDragStart(task.id)}
+                  className="gap-3 mb-4 p-3 hover:border-[#836fd240] hover:cursor-pointer"
                 >
-                  <CardHeader>{task.title}</CardHeader>
-                  <CardContent>{task.description}</CardContent>
-                  <CardFooter>{task.dueDate}</CardFooter>
+                  <CardHeader className="font-bold text-[20px]">
+                    {task.title}
+                  </CardHeader>
+                  <CardContent className="text-[#bcbaba]">
+                    {task.description}
+                  </CardContent>
+                  <CardFooter className="text-[#B5A7F0] text-[14px] italic">
+                    {task.dueDate}
+                  </CardFooter>
                 </Card>
               ))}
             </div>

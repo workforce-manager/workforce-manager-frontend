@@ -1,12 +1,13 @@
 import {
+  CheckCheck,
   CircleUserRound,
   Home,
   Star,
   Phone,
-  LayoutDashboard,
   LogIn,
   LogOut,
-  LucideIcon
+  LucideIcon,
+  SquareChartGantt
 } from "lucide-react";
 
 interface IMenuItem {
@@ -44,7 +45,12 @@ export const EXTRA_ITEMS: IMenuItem[] = [
 
 export const ADMIN_MAIN_ITEMS: IMenuItem[] = [
   {
-    icon: LayoutDashboard,
+    icon: Home,
+    url: "/",
+    title: "Home", 
+  },
+  {
+    icon: SquareChartGantt,
     url: "/admin/dashboard",
     title: "Dashboard",
   },
@@ -70,19 +76,29 @@ export const ADMIN_EXTRA_ITEMS: IMenuItem[] = [
 
 export const EMPLOYEE_MAIN_ITEMS: IMenuItem[] = [
   {
+    icon: Home,
+    url: "/",
+    title: "Home", 
+  },
+  {
     icon: CircleUserRound,
     url: "/employee/profile",
     title: "Profile",
   },
-  { 
+  {
     icon: Star,
     url: "/features",
-    title: "Features", 
+    title: "Features",
   },
-  { 
+  {
+    icon: CheckCheck,
+    url: "/employee/tasks",
+    title: "Tasks",
+  },
+  {
     icon: Phone,
     url: "/contact",
-    title: "Contact", 
+    title: "Contact",
   },
 ];
 
