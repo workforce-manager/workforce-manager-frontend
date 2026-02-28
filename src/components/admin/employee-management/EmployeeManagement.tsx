@@ -45,11 +45,26 @@ export function EmployeeManagement() {
     queryFn: () => getAllEmployees(),
   });
 
+  const tableData = employees ?? [];
+
+  const tableState = {
+    columnVisibility,
+    globalFilter,
+    sorting,
+  };
+
+  const initialPaginationState = {
+    pagination: {
+      pageIndex: 0,
+      pageSize: 6,
+    },
+  };
+
   const table = useReactTable({
     columns,
-    data: employees ?? [],
-    state: { columnVisibility, globalFilter, sorting },
-    initialState: { pagination: { pageIndex: 0, pageSize: 6 } },
+    data: tableData,
+    state: tableState,
+    initialState: initialPaginationState,
     onColumnVisibilityChange: setColumnVisibility,
     onGlobalFilterChange: setGlobalFilter,
     onSortingChange: setSorting,
@@ -136,21 +151,22 @@ export function EmployeeManagement() {
                 </TableRow>
               ) : table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {cell.column.id === "name" ? (
-                          <div className={styles.cellPrimary}>
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          </div>
-                        ) : (
-                          flexRender(cell.column.columnDef.cell, cell.getContext())
-                        )}
-                      </TableCell>
-                    ))}
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell) => {
+                      const isNameColumn = cell.column.id === "name";
+
+                      return (
+                        <TableCell key={cell.id}>
+                          {isNameColumn ? (
+                            <div className={styles.cellPrimary}>
+                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </div>
+                          ) : (
+                            flexRender(cell.column.columnDef.cell, cell.getContext())
+                          )}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 ))
               ) : (

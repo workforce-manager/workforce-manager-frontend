@@ -6,7 +6,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import styles from "./EmployeeManagement.module.css";
 import type { ColumnDef } from "@tanstack/react-table";
 
 type Employee = {
@@ -14,6 +13,12 @@ type Employee = {
   email: string;
   phone: string;
 };
+
+export const EMPLOYEE_COLUMNS = {
+  NAME: "name",
+  EMAIL: "email",
+  PHONE: "phone",
+} as const;
 
 interface MenuItem {
   label: string;
@@ -29,25 +34,25 @@ const menuItems: MenuItem[] = [
 export const columns: ColumnDef<Employee>[] = [
   {
     header: "Name",
-    accessorKey: "name",
+    accessorKey: EMPLOYEE_COLUMNS.NAME,
     cell: ({ row }) => (
       <div className="w-[175px] capitalize truncate">
-        {row.getValue("name")}
+        {row.getValue(EMPLOYEE_COLUMNS.NAME)}
       </div>
     ),
   },
   {
     header: "Email",
-    accessorKey: "email",
+    accessorKey: EMPLOYEE_COLUMNS.EMAIL,
     cell: ({ row }) => (
       <div className="w-[300px] lowercase truncate">
-        {row.getValue("email")}
+        {row.getValue(EMPLOYEE_COLUMNS.EMAIL)}
       </div>
     ),
   },
   {
     header: "Phone",
-    accessorKey: "phone",
+    accessorKey: EMPLOYEE_COLUMNS.PHONE,
     cell: (ctx) => ctx.getValue<string>(),
   },
   {
@@ -73,8 +78,7 @@ export const columns: ColumnDef<Employee>[] = [
             <DropdownMenuItem
               key={label}
               variant={variant}
-              className={styles.dropdownMenuItem}
-              // className="w-full cursor-pointer text-white capitalize border-none bg-transparent transition-all duration-200 ease-in-out hover:outline-none hover:text-[#B5A7F0] hover:bg-[rgba(181,167,240,0.1)]"
+              className="w-full cursor-pointer text-white capitalize border-none bg-transparent transition-all duration-200 ease-in-out hover:outline-none hover:text-[#B5A7F0] hover:bg-[rgba(181,167,240,0.1)]"
             >
               {label}
             </DropdownMenuItem>
