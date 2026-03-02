@@ -8,7 +8,7 @@ import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ColumnDef } from "@tanstack/react-table";
 
-type Employee = {
+export type Employee = {
   name: string;
   email: string;
   phone: string;
